@@ -1,0 +1,29 @@
+{
+  "name": "young-ui",
+  "version": "1.0.0",
+  "description": "my test vue components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liu245933567/young-ui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liu245933567/young-ui/issues"
+  },
+  "homepage": "https://github.com/liu245933567/young-ui#readme",
+  "dependencies": {
+    "vue": "^2.6.12",
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^3.5.1",
+    "vue-tsx-support": "^3.1.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.7.0"
+  }
+}
