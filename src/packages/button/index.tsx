@@ -1,5 +1,6 @@
 import { Component, Prop } from "vue-property-decorator";
 import * as tsx from "vue-tsx-support";
+import './index.scss'
 
 export enum ButtonType {
   default = "default",
@@ -16,8 +17,8 @@ export interface IButtonProps {
   num: number;
 }
 
-@Component
-class Button extends tsx.Component<IButtonProps> {
+@Component({name: ''})
+class Button extends tsx.Component<{}> {
   @Prop() public type!: ButtonType;
   @Prop() public size!: ButtonSize;
   @Prop({ default: 0 }) public num!: number;

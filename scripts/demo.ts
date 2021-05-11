@@ -1,109 +1,111 @@
-export default function (nameLc = "test") {
-  var temp = {
-    demo: `<template>
-    <div class="demo">
-      <h2>基础用法</h2>
-      <nut-cell>
-        <${nameLc} ></${nameLc}>
-        <${nameLc} ></${nameLc}>
-      </nut-cell>
+import path from "path";
+import fs from "fs";
+
+const packagesPath = path.join(__dirname, '../src/packages/');
+
+function writeFile(tarPath: string, fileName: string, text: string) {
+  return new Promise((resolve) => {
+    const filePath = path.join(tarPath, fileName);
+    if (!fs.existsSync(tarPath)) {
+      fs.mkdirSync(filePath);
+    }
+    fs.writeFile(filePath, text, (err) => {
+      if (err) throw err;
+      resolve(`生成 ${fileName} 文件成功`);
+    });
+  });
+}
+
+function getKebabCase( str ) {
+  str = str.replace(str[0], str[0].toLowerCase())
+
+  return str.replace( /[A-Z]/g, function( i ) {
+      return '-' + i.toLowerCase();
+  })
+}
+
+export function createTsx(name: string) {
+  const className = getKebabCase(name);
+  const text = `
+  import { Component, Prop } from "vue-property-decorator";
+  import tsx from "vue-tsx-support";
+  import './index.scss';
+
+  @Component({name: '${className}'})
+  class ${name} extends tsx.Component<{}> {
+    protected render() {
+      return (
+        <div class="${className}"></div>
+      );
+    }
+  }
+  
+  export default ${name};
+  `;
+
+  return writeFile(packagesPath, 'index.tsx', text)
+}
+
+export function createDoc(name: string) {
+  const text = `
+  # ${name}组件
+  ### 介绍
+  基于 xxxxxxx
+  ### 安装
+  ## 代码演示
+  ### 基础用法1
+  ## API
+  ### Props
+  | 参数         | 说明                             | 类型   | 默认值           |
+  |--------------|----------------------------------|--------|------------------|
+  | name         | 图标名称或图片链接               | String | -                |
+  ### Events
+  | 事件名 | 说明           | 回调参数     |
+  |--------|----------------|--------------|
+  | click  | 点击图标时触发 | event: Event |
+  `;
+
+  return writeFile(packagesPath, 'doc.md', text)
+}
+
+export function createScss(name: string) {
+  const text = `
+  .jt-${getKebabCase(name)} {}
+  `;
+
+  return writeFile(packagesPath, 'index.scss', text);
+}
+
+export function createDemo(name: string) {
+  const className = getKebabCase(name); 
+  const text = `
+  <template>
+    <div class="demo-${className}">
+      <h2>${name} 基础用法</h2>
+      <div></div>
     </div>
   </template>
-  
-  <script lang="ts">
-  import { createComponent } from '@/utils/create';
-  const { createDemo } = createComponent('${nameLc}');
-  export default createDemo({
-    props: {},
-    setup() {
-      return {};
-    }
-  });
-  </script>
-  
-  <style lang="scss" scoped>
-  .demo{
+  <script>
+  export default {
+    name: 'demo-${className}'
   }
-  </style>
-  `,
-    vue: `<template>
-    <view :class="classes" @click="handleClick">
-      <view>{{ name }}</view>
-      <view>{{ txt }}</view>
-    </view>
-  </template>
-  <script lang="ts">
-  import { toRefs } from 'vue';
-  import { createComponent } from '@/utils/create';
-  const { componentName, create } = createComponent('${nameLc}');
-  
-  export default create({
-    props: {
-      name: {
-        type: String,
-        default: ''
-      },
-      txt: {
-        type: String,
-        default: ''
-      }
-    },
-    components: {},
-    emits: ['click'],
-  
-    setup(props, { emit }) {
-      console.log('componentName', componentName);
-  
-      const { name, txt } = toRefs(props);
-  
-      const handleClick = (event: Event) => {
-        emit('click', event);
-      };
-  
-      return { name, txt, handleClick };
-    }
-  });
   </script>
-  
-  <style lang="scss">
-  @import 'index.scss';
+
+  <style lang="scss" scoped>
+  .demo-${className} { }
   </style>
-  `,
-    doc: `#  ${nameLc}组件
+  `;
 
-    ### 介绍
-    
-    基于 xxxxxxx
-    
-    ### 安装
-    
-    ${""}
-    
-    ## 代码演示
-    
-    ### 基础用法1
-    
+  return writeFile(packagesPath, 'demo.vue', text);
+}
 
-    
-    ## API
-    
-    ### Props
-    
-    | 参数         | 说明                             | 类型   | 默认值           |
-    |--------------|----------------------------------|--------|------------------|
-    | name         | 图标名称或图片链接               | String | -                |
-    | color        | 图标颜色                         | String | -                |
-    | size         | 图标大小，如 '20px' '2em' '2rem' | String | -                |
-    | class-prefix | 类名前缀，用于使用自定义图标     | String | 'nutui-iconfont' |
-    | tag          | HTML 标签                        | String | 'i'              |
-    
-    ### Events
-    
-    | 事件名 | 说明           | 回调参数     |
-    |--------|----------------|--------------|
-    | click  | 点击图标时触发 | event: Event |
-    `,
-  };
+export function createType(name: string) {
+  const className = getKebabCase(name); 
+  const text = `
+  import Vue from "vue";
 
-  return temp;
+  export declare class ${className} extends Vue {}
+  `;
+
+  return writeFile(packagesPath, 'index.d.ts', text);
 }

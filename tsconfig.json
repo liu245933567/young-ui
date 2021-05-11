@@ -6,6 +6,8 @@
     "rootDir": ".",
     "esModuleInterop": true,
     "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "experimentalDecorators": true,

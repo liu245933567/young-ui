@@ -3,7 +3,7 @@
  * @Description: 创建模板
  * @Date: 2021-05-10 23:04:12
  * @Last Modified by: LiuYh
- * @Last Modified time: 2021-05-10 23:17:27
+ * @Last Modified time: 2021-05-11 18:44:21
  */
 
 import inquirer from "inquirer";
@@ -16,6 +16,7 @@ const nav = config.nav;
 var newCpt = {
   version: "3.0.0",
   name: "",
+  componentName: '',
   type: "",
   cName: "",
   desc: "",
@@ -23,6 +24,7 @@ var newCpt = {
   show: true,
   author: "",
 };
+
 function init() {
   inquirer
     .prompt([
@@ -196,7 +198,7 @@ function createScss() {
 }
 function createDoc() {
   return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase();
+    const nameLc = newCpt.name;
     let content = demoModel(nameLc).doc;
     const dirPath = path.join(__dirname, "../src/packages/" + nameLc);
     const filePath = path.join(dirPath, `doc.md`);
@@ -209,6 +211,7 @@ function createDoc() {
     });
   });
 }
+
 function createNew() {
   createIndexJs()
     .then(() => {
