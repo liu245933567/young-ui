@@ -7,8 +7,8 @@
       <ul>
         <li
           :class="{ active: isActive(_package.name) }"
-          v-for="_package in docs.packages"
-          :key="_package"
+          v-for="(_package, index) in docs.packages"
+          :key="`${_package.name}-${index}`"
           v-show="_package.show"
         >
           <router-link
@@ -22,15 +22,14 @@
         </li>
       </ul>
     </ol>
-    <ol v-for="_nav in nav" :key="_nav">
+    <ol v-for="_nav in nav" :key="_nav.name">
       <li>{{ _nav.name }}</li>
       <ul>
         <template
           :class="{ active: isActive(_package.name) }"
           v-for="_package in _nav.packages"
-          :key="_package"
         >
-          <li v-if="_package.show">
+          <li v-if="_package.show" :key="_package.name">
             <router-link :to="_package.name.toLowerCase()">
               {{ _package.name }}&nbsp;&nbsp;<b>{{ _package.cName }}</b>
             </router-link>
@@ -40,29 +39,23 @@
     </ol>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, computed, onMounted } from 'vue';
-import { RefData } from '@/sites/assets/util/ref';
-import { nav, docs } from '@/config.json';
-export default defineComponent({
-  name: 'doc-nav',
-  setup() {
-    const isActive = computed(() => {
-      return function(name: string) {
-        return RefData.getInstance().currentRoute.value == name.toLowerCase();
-      };
-    });
-    onMounted(() => {
-      console.log('123' + nav);
-    });
+<script>
+import { nav, docs } from "@/config.json";
+
+export default {
+  name: "doc-nav",
+  data() {
     return {
-      isActive,
-      nav: reactive(nav),
-      docs: reactive(docs),
-      currentRoute: RefData.getInstance().currentRoute
+      nav,
+      docs,
     };
-  }
-});
+  },
+  computed: {
+    isActive() {
+      return (name) => this.$route.name === name.toLowerCase();
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -99,7 +92,7 @@ export default defineComponent({
         &.active {
           &::before {
             position: absolute;
-            content: '';
+            content: "";
             left: 0;
             top: 50%;
             width: 22px;

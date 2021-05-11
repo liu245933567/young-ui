@@ -4,16 +4,16 @@
       type="text"
       class="search-input"
       placeholder="在 NutUI 中搜索"
-      v-model="data.searchVal"
+      v-model="searchVal"
       @focus="onfocus"
       @blur="onblur"
       @keyup="choseList"
     />
-    <ul class="search-list" v-show="data.searchList.length > 0">
+    <ul class="search-list" v-show="searchList.length > 0">
       <li
-        :class="data.searchCurName == item.name ? 'cur' : ''"
+        :class="searchCurName == item.name ? 'cur' : ''"
         @click="checklist(item)"
-        v-for="(item, index) in data.searchList"
+        v-for="(item, index) in searchList"
         :key="index"
       >
         <router-link :to="item.name.toLowerCase()">
@@ -25,64 +25,62 @@
   </div>
 </template>
 <script>
-import { defineComponent, reactive, onMounted, watch } from 'vue';
-import { nav } from '@/config.json';
-export default defineComponent({
-  name: 'search',
-  setup() {
-    const data = reactive({
+import { nav } from "@/config.json";
+
+export default {
+  name: "search",
+  data() {
+    return {
       nav,
       navList: [],
       searchIndex: 0,
       searchList: [],
-      searchVal: '',
-      searchCName: ''
-    });
-    onMounted(() => {
-      // console.log('nav', nav);
-      nav.forEach(item => {
-        item.packages.forEach(value => {
-          // console.log('value', value)
-          data.navList.push(value);
-        });
-        // console.log('search', data.navList);
+      searchVal: "",
+      searchCName: "",
+    };
+  },
+  mounted() {
+    nav.forEach((item) => {
+      item.packages.forEach((value) => {
+        this.navList.push(value);
       });
     });
-    watch(
-      () => data.searchVal,
-      sVal => {
-        if (sVal) {
-          data.searchList = data.navList.filter(item => {
-            if (item.show === false) return false;
-            // console.log('item', item);
-            const rx = new RegExp(sVal, 'gi');
-            return rx.test(item.name + ' ' + item.cName + '' + item.desc);
-          });
-          // console.log('rx2', data.searchList.length, data.searchList);
-        } else {
-          data.searchCName = '';
-          data.searchIndex = 0;
-          data.searchList = [];
-        }
-        // console.log(data.searchList)
+  },
+
+  watch: {
+    searchVal(sVal) {
+      if (sVal) {
+        this.searchList = this.navList.filter((item) => {
+          if (item.show === false) return false;
+          const rx = new RegExp(sVal, "gi");
+          return rx.test(item.name + " " + item.cName + "" + item.desc);
+        });
+      } else {
+        this.searchCName = "";
+        this.searchIndex = 0;
+        this.searchList = [];
       }
-    );
-    const onfocus = e => {
-      // e.target.select();
-    };
-    const onblur = e => {
+    },
+  },
+
+  methods: {
+    onfocus(){},
+
+    onblur() {
       setTimeout(() => {
-        data.searchList = [];
-        data.searchVal = '';
+        this.searchList = [];
+        this.searchVal = '';
       }, 200);
-    };
-    const checklist = () => {
-      data.searchVal = '';
-      data.searchCurName = '';
-      data.searchIndex = 0;
-    };
-    const choseList = e => {
-      let searchIndex = data.searchIndex;
+    },
+
+    checklist() {
+      this.searchVal = '';
+      this.searchCurName = '';
+      this.searchIndex = 0;
+    },
+
+    choseList() {
+      let searchIndex = this.searchIndex;
       if (e.keyCode == 40) {
         searchIndex++;
       }
@@ -92,32 +90,25 @@ export default defineComponent({
       if (searchIndex < 0) {
         searchIndex = 0;
       }
-      const searchList = data.searchList;
+      const searchList = this.searchList;
       if (searchList.length > 0) {
         const cName = searchList[searchIndex] && searchList[searchIndex].name;
         if (cName) {
-          data.searchCurName = cName;
-          data.searchIndex = searchIndex;
+          this.searchCurName = cName;
+          this.searchIndex = searchIndex;
           if (e.keyCode == 13) {
-            data.$router.push({
+            this.$router.push({
               path: '/' + searchList[searchIndex].name
             });
-            data.searchCurName = '';
-            data.searchIndex = 0;
-            data.searchVal = '';
+            this.searchCurName = '';
+            this.searchIndex = 0;
+            this.searchVal = '';
           }
         }
       }
-    };
-    return {
-      data,
-      onfocus,
-      choseList,
-      onblur,
-      checklist
-    };
+    }
   }
-});
+};
 </script>
 <style lang="scss">
 .search-box {
@@ -130,7 +121,7 @@ export default defineComponent({
     padding-left: 42px;
     font-size: 14px;
     vertical-align: middle;
-    background: transparent url('../../assets/images/input-search.png')
+    background: transparent url("../../assets/images/input-search.png")
       no-repeat;
     font-size: 14px;
     color: #fff;

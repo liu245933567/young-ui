@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    wfwefewf
+    <Button type="primary" num="qwdwqd" size="large"/>
+
   </div>
 </template>
 <script>
-export default {
+import Button from '@/packages/button';
+// import Test from './components/test.vue';
 
+export default {
+  components: {
+    Button,
+  }
 }
 </script>
 

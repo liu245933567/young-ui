@@ -1,6 +1,7 @@
 <template>
+<div>
   <doc-header></doc-header>
-  <div class="doc-content" :class="themeName()">
+  <div class="doc-content">
     <div class="doc-content-index">
       <div class="content-left">
         <div class="content-title"> NutUI 3.0 </div>
@@ -18,7 +19,7 @@
               <div class="qrcode"> </div>
             </div>
           </div>
-          <iframe
+          <!-- <iframe
             style="margin-left: 20px"
             src="https://ghbtns.com/github-btn.html?user=jdf2e&repo=nutui&type=star&count=true&size=large"
             frameborder="0"
@@ -26,174 +27,28 @@
             width="170"
             height="30"
             title="GitHub"
-          ></iframe>
+          ></iframe> -->
         </div>
       </div>
-    </div>
-    <div class="doc-content-features">
-      <div class="doc-content-hd">
-        <h4 class="doc-content-title">平台特色</h4>
-      </div>
-      <ul class="features-list">
-        <li class="features-item">
-          <img src="../../assets/images/img-home-features1.png" />
-          <p class="features-title">京东风格</p>
-          <p class="features-desc">遵循京东 App 9.0 设计规范</p>
-        </li>
-        <li class="features-item">
-          <img src="../../assets/images/img-home-features2.png" />
-          <p class="features-title">组件丰富</p>
-          <p class="features-desc a-l"
-            >提供 70+ 组件，丰富的 demo
-            快速体验交互细节，覆盖各类场景满足各种功能的需求</p
-          >
-        </li>
-        <li class="features-item">
-          <img src="../../assets/images/img-home-features3.png" />
-          <p class="features-title">前沿技术</p>
-          <p class="features-desc">vue3 vite2.x typescript</p>
-        </li>
-        <li class="features-item">
-          <img src="../../assets/images/img-home-features4.png" />
-          <p class="features-title">贴心通道</p>
-          <p class="features-desc">社区维护 高效服务<br />技术支持 经验沉淀</p>
-        </li>
-      </ul>
-    </div>
-    <div class="doc-content-cases" v-if="casesImages.length">
-      <div class="doc-content-hd">
-        <h4 class="doc-content-title">赋能案例</h4>
-      </div>
-      <div class="doc-content-cases-content">
-        <div class="doc-content-cases-content__main">
-          <div
-            class="doc-content-cases-content__main-lefticon"
-            @click="onLeft"
-          ></div>
-          <div class="doc-content-cases-content__main-iconinfo">
-            <h4>{{ currentCaseItem.product_name }}</h4>
-            <p>{{ currentCaseItem.product_info }}</p>
-            <img :src="currentCaseItem.logo" />
-          </div>
-          <div class="doc-content-cases-content__main-iphone"></div>
-          <div
-            class="doc-content-cases-content__main-righticon"
-            @click="onRight"
-          ></div>
-        </div>
-        <ul class="doc-content-cases-content__list">
-          <li v-for="img in casesImages">
-            <img :src="img" />
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="doc-content-more" v-if="articleList.length">
-      <div class="doc-content-hd">
-        <h4 class="doc-content-title">更多内容</h4>
-        <a class="sub-more" href="#/resource">More</a>
-      </div>
-      <ul class="more-list">
-        <li
-          class="more-item"
-          v-for="item in articleList.slice(0, 4)"
-          :key="item.id"
-          @click="toLink(item.id)"
-        >
-          <img :src="item.cover_image" />
-          <p class="more-title" v-hover>{{ item.title }}</p>
-        </li>
-      </ul>
     </div>
   </div>
-  <doc-footer></doc-footer>
+</div>
+  
 </template>
-<script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs, computed } from 'vue';
+<script>
 import Header from '@/sites/doc/components/Header.vue';
-import Footer from '@/sites/doc/components/Footer.vue';
-import router from '../router';
-import { RefData } from '@/sites/assets/util/ref';
-import { ApiService } from '@/sites/service/ApiService';
-export default defineComponent({
+
+export default {
   name: 'main',
   components: {
-    [Header.name]: Header,
-    [Footer.name]: Footer
+    [Header.name]: Header
   },
-  setup() {
-    const articleList: any[] = [];
-    let casesList: any[] = [];
-    const casesImages: string[] = [];
-    const currentCaseItem: any = {};
-    const data = reactive({
-      // theme: 'white',
-      articleList,
-      casesImages,
-      currentCaseItem
-    });
-    onMounted(() => {
-      // 文章列表接口
-      const apiService = new ApiService();
-      apiService.getArticle().then(res => {
-        if (res?.state == 0) {
-          data.articleList = (res.value.data.arrays as any[])
-            .map(item => {
-              if (item.type == 1) {
-                return item;
-              }
-            })
-            .filter(i => i);
-        }
-      });
-      apiService.getCases().then(res => {
-        if (res?.state == 0) {
-          data.casesImages = (res.value.data.arrays as any[])
-            .map(item => {
-              return item.cover_image.split(',');
-            })
-            .toString()
-            .split(',');
-          casesList = res.value.data.arrays as any[];
-          data.currentCaseItem = casesList[0];
-        }
-      });
-    });
-    const findCasesItem = (url: string) => {
-      data.currentCaseItem = casesList.find(i => i.cover_image.includes(url));
-    };
-    const onLeft = () => {
-      let url = data.casesImages.shift() as string;
-      findCasesItem(url);
-      data.casesImages.push(url);
-    };
-    const onRight = () => {
-      let url = data.casesImages.pop() as string;
-      findCasesItem(url);
-      data.casesImages.unshift(url);
-    };
-
-    const themeName = computed(() => {
-      return function() {
-        return `doc-content-${RefData.getInstance().themeColor.value}`;
-      };
-    });
-    const toLink = (id: number) => {
-      window.open('//jelly.jd.com/article/' + id);
-    };
-    function toIntro() {
-      router.push({ path: '/intro' });
+  methods: {
+    toIntro() {
+      this.$router.push({ path: '/intro' });
     }
-    return {
-      toIntro,
-      ...toRefs(data),
-      themeName,
-      toLink,
-      onLeft,
-      onRight
-    };
   }
-});
+}
 </script>
 <style lang="scss">
 @keyframes fadeInLeft {

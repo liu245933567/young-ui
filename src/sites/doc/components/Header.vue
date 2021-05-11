@@ -1,6 +1,5 @@
 <template>
-  <!-- <div class="doc-header" :style="{ background: themeColor === 'red' ? headerBg : themeColor }" :class="`doc-header-${data.theme}`"> -->
-  <div class="doc-header" :class="themeName()">
+  <div class="doc-header" :class="themeName">
     <div class="header-logo">
       <a class="logo-link" href="#"></a>
       <span class="logo-border"></span>
@@ -35,20 +34,20 @@
               @focusout="handleFocusOut"
               tabindex="0"
               class="header-select-box"
-              @click.stop="data.isShowSelect = !data.isShowSelect"
-              :class="[data.isShowSelect == true ? 'select-up' : 'select-down']"
+              @click.stop="isShowSelect = !isShowSelect"
+              :class="[isShowSelect == true ? 'select-up' : 'select-down']"
             >
               <div class="header-select-hd"
-                >{{ data.verson }}<i class=""></i
+                >{{ verson }}<i class=""></i
               ></div>
               <transition name="fade">
-                <div class="header-select-bd" v-show="data.isShowSelect">
+                <div class="header-select-bd" v-show="isShowSelect">
                   <div
                     class="header-select-item"
-                    v-for="(item, index) in data.versonList"
+                    v-for="(item, index) in versonList"
                     :key="index"
                     @click.stop="checkTheme(item.name, index)"
-                    :class="{ active: data.activeIndex === index }"
+                    :class="{ active: activeIndex === index }"
                   >
                     {{ item.name }}
                   </div>
@@ -68,20 +67,18 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, computed, onMounted } from 'vue';
-import Search from './Search.vue';
+<script>
 import { header } from '@/config.json';
-import { RefData } from '@/sites/assets/util/ref';
-export default defineComponent({
+import Search from './Search.vue';
+export default {
   name: 'doc-header',
   components: {
     Search
   },
-  setup() {
-    const data = reactive({
+  data() {
+    return {
+      header,
       theme: 'black',
-      // headerBg: 'url(' + require('../../assets/images/header-bg.png') + ')',
       versonList: [
         {
           name: '1.x'
@@ -96,28 +93,29 @@ export default defineComponent({
       verson: '3.x',
       navIndex: 0,
       activeIndex: 0,
-      isShowSelect: false
-    });
-    const handleFocus = () => {
+      isShowSelect: false,
+      themeName: 'doc-header-red'
+    }
+  },
+  computed: {
+    isActive() {
+      return (name) => this.$route.name === name.toLowerCase();
+    },
+  },
+
+  methods: {
+    handleFocus() {
       console.log(1);
-    };
-    const handleFocusOut = () => {
-      data.isShowSelect = false;
-    };
-    const isActive = computed(() => {
-      return function(name: string) {
-        return RefData.getInstance().currentRoute.value == name.toLowerCase();
-      };
-    });
-    const themeName = computed(() => {
-      return function() {
-        return `doc-header-${RefData.getInstance().themeColor.value}`;
-      };
-    });
-    const checkTheme = (item: string, index: number) => {
-      data.isShowSelect = false;
-      data.activeIndex = index;
-      data.verson = item;
+    },
+
+    handleFocusOut() {
+      this.isShowSelect = false;
+    },
+
+    checkTheme(item, index) {
+      this.isShowSelect = false;
+      this.activeIndex = index;
+      this.verson = item;
       if (index === 0) {
         window.location.href = '//nutui.jd.com/1x/';
       } else if (index === 1) {
@@ -125,18 +123,9 @@ export default defineComponent({
       } else {
         // window.location.href = ""
       }
-    };
-    return {
-      header,
-      data,
-      isActive,
-      checkTheme,
-      themeName,
-      handleFocus,
-      handleFocusOut
-    };
+    }
   }
-});
+}
 </script>
 
 <style lang="scss">

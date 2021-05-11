@@ -1,9 +1,33 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "es2020",
+    "baseUrl": ".",
+    "rootDir": ".",
     "esModuleInterop": true,
+    "jsx": "preserve",
     "resolveJsonModule": true,
-    "outDir": "dist"
-  }
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "outDir": "tsc",
+    "lib": [
+      "es2020",
+      "es2015",
+      "es2016",
+      "es2017",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "node_modules/vue-tsx-support/enable-check.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ]
 }

@@ -1,58 +1,50 @@
 <template>
-  <doc-header></doc-header>
-  <doc-nav></doc-nav>
-  <div class="doc-content">
-    <div class="doc-content-document">
-      <router-view />
+  <div>
+    <doc-header></doc-header>
+    <doc-nav></doc-nav>
+    <div class="doc-content">
+      <div class="doc-content-document">
+        <router-view />
+      </div>
+      <doc-demo-preview :url="demoUrl"></doc-demo-preview>
     </div>
-    <doc-demo-preview :url="demoUrl"></doc-demo-preview>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, onMounted, reactive } from 'vue';
-import {
-  onBeforeRouteUpdate,
-  RouteLocationNormalized,
-  useRoute
-} from 'vue-router';
-import Header from '@/sites/doc/components/Header.vue';
-import Nav from '@/sites/doc/components/Nav.vue';
-import Footer from '@/sites/doc/components/Footer.vue';
-import DemoPreview from '@/sites/doc/components/DemoPreview.vue';
-import { RefData } from '@/sites/assets/util/ref';
-export default defineComponent({
-  name: 'doc',
+<script>
+import Header from "@/sites/doc/components/Header.vue";
+import Nav from "@/sites/doc/components/Nav.vue";
+// import Footer from "@/sites/doc/components/Footer.vue";
+import DemoPreview from "@/sites/doc/components/DemoPreview.vue";
+
+export default {
   components: {
     [Header.name]: Header,
     [Nav.name]: Nav,
-    [Footer.name]: Footer,
-    [DemoPreview.name]: DemoPreview
+    [DemoPreview.name]: DemoPreview,
   },
-  setup() {
-    const data = reactive({
-      demoUrl: 'demo.html'
-    });
-
-    const watchDemoUrl = (router: RouteLocationNormalized) => {
-      const { origin, pathname } = window.location;
-      RefData.getInstance().currentRoute.value = router.name as string;
-      data.demoUrl = `${origin}${pathname.replace('index.html', '')}demo.html#${
-        router.path
-      }`;
+  data() {
+    return {
+      demoUrl: "demo.html",
     };
-
-    onMounted(() => {
-      const route = useRoute();
-      watchDemoUrl(route);
-    });
-
-    onBeforeRouteUpdate(to => {
-      watchDemoUrl(to);
-    });
-
-    return data;
-  }
-});
+  },
+  watch: {
+    "$route.path": {
+      handler(val) {
+        this.setDemoUrl(val);
+      },
+      immediate: true,
+    },
+  },
+  methods: {
+    setDemoUrl(path) {
+      const { origin, pathname } = window.location;
+      this.demoUrl = `${origin}${pathname.replace(
+        "index.html",
+        ""
+      )}demo.html#${path}`;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

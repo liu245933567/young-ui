@@ -69,21 +69,6 @@
       "packages": []
     },
     {
-      "name": "操作反馈",
-      "packages": [
-        {
-          "version": "3.0.0",
-          "name": "Toast",
-          "type": "component",
-          "cName": "测试",
-          "desc": "测试",
-          "sort": 1,
-          "show": true,
-          "author": ""
-        }
-      ]
-    },
-    {
       "name": "基础组件",
       "packages": [
         {
