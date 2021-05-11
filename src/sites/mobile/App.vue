@@ -6,7 +6,6 @@
 </template>
 <script>
 import Button from '@/packages/button';
-// import Test from './components/test.vue';
 
 export default {
   components: {

@@ -3,15 +3,13 @@ import config from '../src/config.json';
 import path from 'path';
 import fs from 'fs-extra';
 
-let importStr = `import { App } from 'vue';\n`;
+let importStr = `import Vue from 'vue';\n`;
 const packages = [];
 config.nav.map(item => {
   item.packages.forEach(element => {
     let { name, show, type } = element;
     if (show) {
-      importStr += `import ${name} from './packages/${name.toLowerCase()}/index${
-        type === 'methods' ? '' : '.vue'
-      }';\n`;
+      importStr += `import ${name} from './packages/${name.toLowerCase()}';\n`;
       packages.push(name);
     }
   });

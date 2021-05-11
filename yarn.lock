@@ -1134,16 +1134,6 @@ debug@^4.1.0, debug@^4.3.1:
   dependencies:
     ms "2.1.2"
 
-deep-equal@~0.0.0:
-  version "0.0.0"
-  resolved "https://registry.nlark.com/deep-equal/download/deep-equal-0.0.0.tgz#99679d3bbd047156fcd450d3d01eeb9068691e83"
-  integrity sha1-mWedO70EcVb81FDT0B7rkGhpHoM=
-
-defined@~0.0.0:
-  version "0.0.0"
-  resolved "https://registry.npm.taobao.org/defined/download/defined-0.0.0.tgz#f35eea7d705e933baf13b2f03b3f83d921403b3e"
-  integrity sha1-817qfXBekzuvE7LwOz+D2SFAOz4=
-
 diff@^4.0.1:
   version "4.0.2"
   resolved "https://registry.npm.taobao.org/diff/download/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
@@ -1154,24 +1144,10 @@ electron-to-chromium@^1.3.47, electron-to-chromium@^1.3.723:
   resolved "https://registry.nlark.com/electron-to-chromium/download/electron-to-chromium-1.3.727.tgz#857e310ca00f0b75da4e1db6ff0e073cc4a91ddf"
   integrity sha1-hX4xDKAPC3XaTh22/w4HPMSpHd8=
 
-element@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.npm.taobao.org/element/download/element-0.1.4.tgz#1642279061328a574a692e0e5184e62c180a6685"
-  integrity sha1-FkInkGEyildKaS4OUYTmLBgKZoU=
-  dependencies:
-    ent "0.0.5"
-    global "~2.0.7"
-    lru-cache "~2.3.0"
-
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.npm.taobao.org/emoji-regex/download/emoji-regex-8.0.0.tgz?cache=0&sync_timestamp=1614682725186&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Femoji-regex%2Fdownload%2Femoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
   integrity sha1-6Bj9ac5cz8tARZT4QpY79TFkzDc=
-
-ent@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.npm.taobao.org/ent/download/ent-0.0.5.tgz#98b4498d8a89d7b8d78af7aaa0714675783c7b4e"
-  integrity sha1-mLRJjYqJ17jXiveqoHFGdXg8e04=
 
 entities@~2.1.0:
   version "2.1.0"
@@ -1278,14 +1254,6 @@ glob-parent@~5.1.0:
   integrity sha1-hpgyxYA0/mikCTwX3BXoNA2EAcQ=
   dependencies:
     is-glob "^4.0.1"
-
-global@~2.0.7:
-  version "2.0.7"
-  resolved "https://registry.npm.taobao.org/global/download/global-2.0.7.tgz#d43a9c3d1ec7915f645d8e0eb0ac60010e9e06cd"
-  integrity sha1-1DqcPR7HkV9kXY4OsKxgAQ6eBs0=
-  dependencies:
-    min-document "~0.2.2"
-    process "~0.5.1"
 
 globals@^11.1.0:
   version "11.12.0"
@@ -1479,11 +1447,6 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonify@~0.0.0:
-  version "0.0.0"
-  resolved "https://registry.npm.taobao.org/jsonify/download/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
-  integrity sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM=
-
 kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.nlark.com/kind-of/download/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
@@ -1520,11 +1483,6 @@ lru-cache@^4.1.2:
   dependencies:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
-
-lru-cache@~2.3.0:
-  version "2.3.1"
-  resolved "https://registry.npm.taobao.org/lru-cache/download/lru-cache-2.3.1.tgz#b3adf6b3d856e954e2c390e6cef22081245a53d6"
-  integrity sha1-s632s9hW6VTiw5DmzvIggSRaU9Y=
 
 magic-string@^0.25.7:
   version "0.25.7"
@@ -1565,13 +1523,6 @@ mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/mimic-fn/download/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha1-ftLCzMyvhNP/y3pptXcR/CCDQBs=
-
-min-document@~0.2.2:
-  version "0.2.8"
-  resolved "https://registry.npm.taobao.org/min-document/download/min-document-0.2.8.tgz#f3620cf5603611155cb9416d0ab5576b16d53de3"
-  integrity sha1-82IM9WA2ERVcuUFtCrVXaxbVPeM=
-  dependencies:
-    tape "~1.0.2"
 
 minimist@^1.2.5:
   version "1.2.5"
@@ -1670,11 +1621,6 @@ private@^0.1.6:
   version "0.1.8"
   resolved "https://registry.npm.taobao.org/private/download/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
   integrity sha1-I4Hts2ifelPWUxkAYPz4ItLzaP8=
-
-process@~0.5.1:
-  version "0.5.2"
-  resolved "https://registry.npm.taobao.org/process/download/process-0.5.2.tgz#1638d8a8e34c2f440a91db95ab9aeb677fc185cf"
-  integrity sha1-FjjYqONML0QKkduVq5rrZ3/Bhc8=
 
 pseudomap@^1.0.2:
   version "1.0.2"
@@ -1900,17 +1846,7 @@ svg-tags@^1.0.0:
   resolved "https://registry.npm.taobao.org/svg-tags/download/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
   integrity sha1-WPcc7jvVGbWdSyqEO2x95krAR2Q=
 
-tape@~1.0.2:
-  version "1.0.4"
-  resolved "https://registry.npm.taobao.org/tape/download/tape-1.0.4.tgz#e2e8e5c6dd3f00fdc2a5e4514f62fc221e59f9c4"
-  integrity sha1-4ujlxt0/AP3CpeRRT2L8Ih5Z+cQ=
-  dependencies:
-    deep-equal "~0.0.0"
-    defined "~0.0.0"
-    jsonify "~0.0.0"
-    through "~2.3.4"
-
-through@^2.3.6, through@~2.3.4:
+through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.npm.taobao.org/through/download/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
