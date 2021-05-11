@@ -85,7 +85,18 @@
     },
     {
       "name": "基础组件",
-      "packages": []
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Button",
+          "type": "component",
+          "cName": "按钮",
+          "desc": "基础按钮组件",
+          "sort": 1,
+          "show": true,
+          "author": ""
+        }
+      ]
     },
     {
       "name": "导航组件",

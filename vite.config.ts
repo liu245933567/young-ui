@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { createVuePlugin } from "vite-plugin-vue2";  
 // import vue from '@vitejs/plugin-vue';
 // import legacy from '@vitejs/plugin-legacy';
 // import { createVuePlugin } from "vite-plugin-vue2";
@@ -26,11 +27,12 @@ export default defineConfig({
       scss: {
         // example : additionalData: `@import "./src/design/styles/variables";`
         // dont need include file extend .scss
-        additionalData: `@import "@/styles/variables.scss";@import "@/sites/assets/styles/variables.scss";`
+        // additionalData: `@import "@/styles/variables.scss";@import "@/sites/assets/styles/variables.scss";`
       }
     }
   },
   plugins: [
+    createVuePlugin()
     // vue({
     //   include: [/\.vue$/, /\.md$/]
     // }),
