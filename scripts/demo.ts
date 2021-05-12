@@ -46,10 +46,11 @@ export function createTsx(name: string) {
   return writeFile(packagesPath, 'index.tsx', text)
 }
 
-export function createDoc(name: string) {
+export function createDoc(name: string, desc: string) {
   const text = `
   # ${name}组件
   ### 介绍
+  ${desc}
   基于 xxxxxxx
   ### 安装
   ## 代码演示
@@ -108,4 +109,8 @@ export function createType(name: string) {
   `;
 
   return writeFile(packagesPath, 'index.d.ts', text);
+}
+
+export function addToPackageJson(text) {
+  return writeFile(path.resolve(__dirname, '../src'), 'config.json', text);
 }

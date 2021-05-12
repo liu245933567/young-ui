@@ -4,6 +4,7 @@
     "module": "es2020",
     "baseUrl": ".",
     "rootDir": ".",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "preserve",
     "jsxFactory": "h",
@@ -21,7 +22,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": ["src/*"]
     }

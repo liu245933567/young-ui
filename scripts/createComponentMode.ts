@@ -1,22 +1,12 @@
-/*
- * @Author: LiuYh
- * @Description: 创建模板
- * @Date: 2021-05-10 23:04:12
- * @Last Modified by: LiuYh
- * @Last Modified time: 2021-05-11 18:44:21
- */
-
 import inquirer from "inquirer";
-import path from "path";
-import fs from "fs";
 import config from "../src/config.json";
-import demoModel from "./demo";
+import * as CREAT_METHOD from "./demo";
+
 const nav = config.nav;
 
 var newCpt = {
   version: "3.0.0",
   name: "",
-  componentName: '',
   type: "",
   cName: "",
   desc: "",
@@ -114,131 +104,35 @@ function init() {
       },
     ])
     .then(function (answers) {
-      // answers.sort = String(sorts.indexOf(answers.sort));
-      newCpt = Object.assign(newCpt, answers);
-      createNew();
+      const input = Object.assign(newCpt, answers);
+      createNew(input);
     });
 }
-function createIndexJs() {
-  const nameLc = newCpt.name.toLowerCase();
-  const destPath = path.join("src/packages/" + nameLc);
-  if (!fs.existsSync(destPath)) {
-    fs.mkdirSync(destPath);
-  }
 
-  if (newCpt.type == "method") return;
-  return new Promise((resolve) => {
-    resolve(`生成index.js文件成功`);
-  });
-}
 
-function createVue() {
-  return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase();
-    let content = demoModel(nameLc).vue;
-    const dirPath = path.join(__dirname, `../src/packages/${nameLc}/`);
-    const filePath = path.join(dirPath, `index.vue`);
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(filePath);
-    }
-    fs.writeFile(filePath, content, (err) => {
-      if (err) throw err;
-      resolve(`生成${newCpt.name}.vue文件成功`);
-    });
-  });
-}
-
-function createDemo() {
-  return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase();
-    let content = demoModel(nameLc).demo;
-    const dirPath = path.join(__dirname, "../src/packages/" + nameLc);
-    const filePath = path.join(dirPath, `demo.vue`);
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(filePath);
-    }
-    fs.writeFile(filePath, content, (err) => {
-      if (err) throw err;
-      resolve(`生成demo.vue文件成功`);
-    });
-  });
-}
-
-function addToPackageJson() {
-  return new Promise((resolve, reject) => {
-    let sort = newCpt.sort;
-    newCpt.sort = nav[sort - 1].packages.length + 1;
-    nav[sort - 1].packages.push(newCpt);
-    config.nav = nav;
-    // conf.packages.push(newCpt);
-    const dirPath = path.join(__dirname, `../`);
-    const filePath = path.join(dirPath, `src/config.json`);
-
-    var tempfile = JSON.stringify(config, null, 2);
-    fs.writeFile(filePath, tempfile, (err) => {
-      if (err) throw err;
-      resolve(`修改config.json文件成功`);
-    });
-  });
-}
-function createScss() {
-  return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase();
-    let content = `.nut-${nameLc} {}`;
-    const dirPath = path.join(__dirname, "../src/packages/" + nameLc);
-    const filePath = path.join(dirPath, `index.scss`);
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(filePath);
-    }
-    fs.writeFile(filePath, content, (err) => {
-      if (err) throw err;
-      resolve(`index.scss文件成功`);
-    });
-  });
-}
-function createDoc() {
-  return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name;
-    let content = demoModel(nameLc).doc;
-    const dirPath = path.join(__dirname, "../src/packages/" + nameLc);
-    const filePath = path.join(dirPath, `doc.md`);
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(filePath);
-    }
-    fs.writeFile(filePath, content, (err) => {
-      if (err) throw err;
-      resolve(`doc.md文件成功`);
-    });
-  });
-}
-
-function createNew() {
-  createIndexJs()
+async function createNew({ name, desc }: typeof newCpt) {
+  CREAT_METHOD.createTsx(name)
+    .then(() => CREAT_METHOD.createScss(name))
+    .then(() => CREAT_METHOD.createDemo(name))
+    .then(() => CREAT_METHOD.createDoc(name, desc))
+    .then(() => CREAT_METHOD.createType(name))
     .then(() => {
-      if (newCpt.type == "component" || newCpt.type == "method") {
-        return createVue();
-      } else {
-        return;
-      }
+      let sort = newCpt.sort;
+      newCpt.sort = nav[sort - 1].packages.length + 1;
+      nav[sort - 1].packages.push(newCpt);
+      config.nav = nav;
+
+      const tempfile = JSON.stringify(config, null, 2);
+      return CREAT_METHOD.addToPackageJson(tempfile);
     })
     .then(() => {
-      return createScss();
-    })
-    .then(() => {
-      return createDemo();
-    })
-    .then(() => {
-      return createDoc();
-    })
-    .then(() => {
-      return addToPackageJson();
-    })
-    .then(() => {
-      console.log("组件模板生成完毕，请开始你的表演~");
+      console.log("是时候表演真正的技术了~");
       process.exit();
     });
 }
+
 function createComponent() {
   init();
 }
+
 createComponent();
