@@ -279,8 +279,8 @@ export default {
     .header {
       &-logo {
         .logo-link {
-          background: url('../../assets/images/logo-header-white.png') no-repeat
-            center/100%;
+          /* background: url('../../assets/images/logo-header-white.png') no-repeat
+            center/100%; */
         }
         .logo-border {
           background: $theme-red-border;

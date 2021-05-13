@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "YoungUiDemo",
+  name: "demo-button",
   data() {
     return {};
   },
@@ -17,5 +17,5 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 </style>
