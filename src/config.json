@@ -56,10 +56,9 @@
         "show": true
       },
       {
-        "name": "https://github.com/jdf2e/nutui/releases",
+        "name": "updatalog",
         "cName": "更新日志",
-        "show": true,
-        "isLink": true
+        "show": true
       }
     ]
   },
@@ -77,6 +76,16 @@
           "type": "component",
           "cName": "按钮",
           "desc": "基础按钮组件",
+          "sort": 1,
+          "show": true,
+          "author": ""
+        },
+        {
+          "version": "3.0.0",
+          "name": "Icon",
+          "type": "component",
+          "cName": "图标",
+          "desc": "基础图标组件",
           "sort": 1,
           "show": true,
           "author": ""

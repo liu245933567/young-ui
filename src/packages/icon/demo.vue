@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "demo-button",
+  name: "demo-icon",
   data() {
     return {};
   },

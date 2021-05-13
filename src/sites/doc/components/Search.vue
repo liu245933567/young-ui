@@ -3,7 +3,7 @@
     <input
       type="text"
       class="search-input"
-      placeholder="在 NutUI 中搜索"
+      placeholder="在 Jetair 中搜索"
       v-model="searchVal"
       @focus="onfocus"
       @blur="onblur"

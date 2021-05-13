@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router, { RouteConfig } from "vue-router";
 import Index from "./views/Index.vue";
-// import Resource from "./views/Resource.vue";
 import Main from "./views/Main.vue";
 import config from "../config/env";
 
@@ -37,23 +36,23 @@ for (const path in modulesDocs) {
 
 const routes: Array<RouteConfig> = [
   {
-    path: "/",
-    name: "/",
-    component: Main,
+    path: '/',
+    redirect: '/index'
   },
   {
     path: "/index",
     name: "index",
     component: Index,
     children: pagesRouter,
+  },
+  {
+    path: "/main",
+    name: "main",
+    component: Main,
   }
 ];
 
-// {
-//   path: "/resource",
-//   name: "resource",
-//   component: Resource,
-// }
+
 
 routes.push({
   name: "notFound",
@@ -62,8 +61,6 @@ routes.push({
     name: "/",
   },
 });
-
-console.log('routes -', routes);
 
 const router = new Router({
   routes,
