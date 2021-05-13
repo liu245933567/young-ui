@@ -56,10 +56,9 @@
         "show": true
       },
       {
-        "name": "https://github.com/jdf2e/nutui/releases",
+        "name": "updatalog",
         "cName": "更新日志",
-        "show": true,
-        "isLink": true
+        "show": true
       }
     ]
   },

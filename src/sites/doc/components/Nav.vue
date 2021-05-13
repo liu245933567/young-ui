@@ -6,8 +6,8 @@
       </li>
       <ul>
         <li
-          :class="{ active: isActive(_package.name) }"
           v-for="(_package, index) in docs.packages"
+          :class="{ active: isActive(_package.name) }"
           :key="`${_package.name}-${index}`"
           v-show="_package.show"
         >
