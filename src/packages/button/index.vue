@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: 'YoungUiIndex',
+    name: 'jt-button',
     data() {
         return {
             
@@ -22,5 +22,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+@import './index.scss';
 </style>

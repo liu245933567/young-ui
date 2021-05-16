@@ -36,7 +36,7 @@ export default defineConfig({
     createVuePlugin({
       include: [/\.vue$/, /\.md$/]
     }),
-    createJsxPlugin(),
+    // createJsxPlugin(),
     Markdown(),
   ],
   build: {
