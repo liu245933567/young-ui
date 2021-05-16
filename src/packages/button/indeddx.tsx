@@ -17,8 +17,9 @@ export interface IButtonProps {
   num: number;
 }
 
-@Component({name: ''})
+@Component({})
 class Button extends tsx.Component<{}> {
+  name = 'qwdqwd'
   @Prop() public type!: ButtonType;
   @Prop() public size!: ButtonSize;
   @Prop({ default: 0 }) public num!: number;
