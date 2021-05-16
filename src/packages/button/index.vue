@@ -1,26 +1,55 @@
 <template>
-    <div>
-        qwrfqwrf
-    </div>
+  <button
+    :type="nativeButtonType"
+    :disabled="disabled"
+    :class="[
+      'jt-button',
+      `jt-button-${type}`,
+      {
+        'jt-button-ghost': ghost,
+      },
+    ]"
+  >
+    <label class="jt-button-text"><slot></slot></label>
+  </button>
 </template>
 
 <script>
+/*
+ * jt-button
+ * @desc 按钮
+ * @param nativeButtonType {string} button 原生类型
+ * @param type {string} 样式类型
+ * @param disabled {boolean} 是否为禁用状态
+ * @param ghost {boolean} 是否为幽灵按钮
+ */
+
 export default {
-    name: 'jt-button',
-    data() {
-        return {
-            
-        };
+  name: "jt-button",
+  props: {
+    nativeButtonType: {
+      type: String,
+      default: "button",
     },
-    mounted() {
-        
+    type: {
+      type: String,
+      default: "primary",
+      validator(value) {
+        return ["primary", "gray", "default", "dark"].indexOf(value) > -1;
+      },
     },
-    methods: {
-        
+    disabled: {
+      type: Boolean,
+      default: false,
     },
+    ghost: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
+@import "./index.scss";
 </style>
