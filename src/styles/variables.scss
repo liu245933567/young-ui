@@ -65,6 +65,15 @@ $button-background-color-dark-border: #fff;
 $button-border-radius: .106667rem /* 8/75 */;
 $button-disabled-opacity: 0.4;
 
+// cell
+$cell-height: 1.386667rem /* 104/75 */;
+$cell-left-margin: .533333rem /* 40/75 */;
+$cell-right-margin: .4rem /* 30/75 */;
+$cell-left-font-size: .426667rem /* 32/75 */;
+$cell-left-color: #222;
+$cell-right-font-size: .373333rem /* 28/75 */;
+$cell-right-color: #9a9a9a;
+
 view-block {
   display: block;
 }

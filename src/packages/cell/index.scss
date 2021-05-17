@@ -1,0 +1,45 @@
+.jt-cell {
+  position: relative;
+  height: $cell-height;
+  line-height: $cell-height;
+  background-color: #FFF;
+
+  .jt-cell-inner-wrapper {
+    margin-left: $cell-left-margin;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  & + .jt-cell {
+    .jt-cell-inner-wrapper {
+      border-top: 1px solid rgba(0, 0, 0, 0.15); /* no */
+    }
+  }
+
+  .jt-cell-left-wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: $cell-left-margin;
+    height: 100%;
+    font-size: $cell-left-font-size;
+    color: $cell-left-color;
+  }
+  .jt-cell-right-wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 0;
+    right: $cell-right-margin;
+    height: 100%;
+    font-size: $cell-right-font-size;
+    color: $cell-right-color;
+
+    .jt-cell-goto-icon {
+      margin-left: 8px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
