@@ -6,6 +6,13 @@
   "description": "项目icon,增删改查需慎重",
   "glyphs": [
     {
+      "icon_id": "19674252",
+      "name": "右箭头",
+      "font_class": "arrow-right-o",
+      "unicode": "eb1c",
+      "unicode_decimal": 60188
+    },
+    {
       "icon_id": "21647979",
       "name": "积分",
       "font_class": "integral-o",
