@@ -1,0 +1,42 @@
+$fontsize-large-xxx: 0.32rem /* 24/75 */;
+
+.jt-loading {
+  font-size: $fontsize-large-xxx;
+  &-spinners {
+    position: relative;
+    display: block;
+    width: 1em;
+    height: 1em;
+    &-item {
+      position: absolute;
+      left: 44.5%;
+      top: 37%;
+      width: 2px;
+      height: 25%;
+      border-radius: 50%/20%;
+      opacity: 0.25;
+      background-color: currentColor;
+      animation: spinner-fade 1s linear infinite;
+      @for $i from 1 through 12 {
+        &:nth-child(#{$i}) {
+          animation-delay: (($i - 1)/12) + unquote("s");
+          transform: rotate(30deg * ($i - 6)) translateY(-150%);
+        }
+      }
+    }
+  }
+}
+
+@keyframes spinner-fade {
+  0% {
+    opacity: 0.85;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+
+  100% {
+    opacity: 0.25;
+  }
+}

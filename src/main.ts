@@ -3,9 +3,10 @@ import Button from "./packages/button/index.vue";
 import Icon from "./packages/icon/index.vue";
 import Cell from "./packages/cell/index.vue";
 import Picker from "./packages/picker";
+import Loading from "./packages/loading/index.vue";
 
 function install() {
-  const packages = [Button, Icon, Cell, Picker];
+  const packages = [Button, Icon, Cell, Picker, Loading];
   packages.forEach((item: any) => {
     if (item.install) {
       Vue.use(item);

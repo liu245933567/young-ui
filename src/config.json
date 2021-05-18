@@ -99,6 +99,16 @@
           "sort": 1,
           "show": true,
           "author": ""
+        },
+        {
+          "version": "3.0.0",
+          "name": "Loading",
+          "type": "component",
+          "cName": "加载",
+          "desc": "基础加载组件",
+          "sort": 1,
+          "show": true,
+          "author": ""
         }
       ]
     },
