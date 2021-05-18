@@ -6,6 +6,20 @@
   "description": "项目icon,增删改查需慎重",
   "glyphs": [
     {
+      "icon_id": "21647979",
+      "name": "积分",
+      "font_class": "integral-o",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "21647705",
+      "name": "餐食",
+      "font_class": "meals-o",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "21582300",
       "name": "勾选-未选",
       "font_class": "unselect-circle-o",
