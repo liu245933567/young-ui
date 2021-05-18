@@ -114,7 +114,18 @@
     },
     {
       "name": "导航组件",
-      "packages": []
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Scroll",
+          "type": "component",
+          "cName": "滑动",
+          "desc": "基础华东组件",
+          "sort": 1,
+          "show": true,
+          "author": ""
+        }
+      ]
     },
     {
       "name": "数据录入",

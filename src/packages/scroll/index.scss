@@ -1,0 +1,71 @@
+$scroll-font-size: 0.24rem /* 18/75 */;
+$scroll-item-height: 0.8rem /* 60/75 */;
+$scroll-item-padding: 0.266667rem /* 20/75 */;
+$scroll-pulldown-before-trigger-height: 0.72rem /* 54/75 */;
+$scroll-pulldown-before-trigger-padding-top: 0.08rem /* 6/75 */;
+$scroll-pulldown-after-trigger-loading-padding: 0.106667rem /* 8/75 */;
+$scroll-pulldown-after-trigger-loaded-padding: 0.16rem /* 12/75 */;
+$scroll-pulldown-before-trigger-padding: 0.293333rem /* 22/75 */;
+$scroll-pulldown-after-trigger-padding: 0.253333rem /* 19/75 */;
+
+.jt-scroll-wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.jt-scroll-list-wrapper {
+  overflow: hidden;
+}
+
+.jt-pulldown-wrapper {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all;
+  .before-trigger {
+    height: $scroll-pulldown-before-trigger-height;
+    line-height: 0;
+    padding-top: $scroll-pulldown-before-trigger-padding-top;
+  }
+
+  .after-trigger {
+    .loading {
+      padding: $scroll-pulldown-after-trigger-loading-padding 0;
+    }
+
+    .jt-pulldown-loaded {
+      padding: $scroll-pulldown-after-trigger-loaded-padding 0;
+    }
+  }
+}
+
+.jt-pullup-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .before-trigger {
+    padding: $scroll-pulldown-before-trigger-padding 0;
+    min-height: 1em;
+  }
+
+  .after-trigger {
+    padding: $scroll-pulldown-after-trigger-padding 0;
+  }
+}
+
+.jt-scroll-content {
+  position: relative;
+  z-index: 1;
+}
+
+.jt-scroll-item {
+  height: $scroll-item-height;
+  line-height: $scroll-item-height;
+  font-size: $scroll-font-size;
+  padding-left: $scroll-item-padding;
+}

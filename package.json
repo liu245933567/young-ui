@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/liu245933567/young-ui#readme",
   "dependencies": {
+    "better-scroll": "~1.12.6",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.1.2",

@@ -1,29 +1,23 @@
 import { defineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
-import createJsxPlugin from "@vitejs/plugin-vue-jsx"
-import Markdown from 'vite-plugin-md';
+// import createJsxPlugin from "@vitejs/plugin-vue-jsx";
+import Markdown from "vite-plugin-md";
 import path from "path";
 
 const resolve = path.resolve;
 export default defineConfig({
   base: "/2x/",
-  server: {
-    port: 2021,
-    proxy: {
-      "/devServer": {
-        target: "https://nutui.jd.com",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/devServer/, ""),
-      },
-    },
-    open: false
-  },
   resolve: {
-    alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
+    alias: [
+      { find: "@", replacement: resolve(__dirname, "./src") },
+      { find: "@utils", replacement: resolve(__dirname, "./src/utils") },
+      { find: "@packages", replacement: resolve(__dirname, "./src/packages") },
+      { find: "@mixins", replacement: resolve(__dirname, "./src/mixins") }
+    ],
   },
   esbuild: {
-    jsxFactory: 'h',
-    jsxFragment: 'Fragment'
+    jsxFactory: "h",
+    jsxFragment: "Fragment",
   },
   css: {
     preprocessorOptions: {
@@ -34,7 +28,7 @@ export default defineConfig({
   },
   plugins: [
     createVuePlugin({
-      include: [/\.vue$/, /\.md$/]
+      include: [/\.vue$/, /\.md$/],
     }),
     // createJsxPlugin(),
     Markdown(),
@@ -50,5 +44,4 @@ export default defineConfig({
       },
     },
   },
-
 });

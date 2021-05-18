@@ -23,7 +23,10 @@
       "esnext"
     ],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@utils/*": ["src/utils/*"],
+      "@packages/*": ["src/packages/*"],
+      "@mixins/*": ["src/mixins/*"]
     }
   },
   "include": [

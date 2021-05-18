@@ -4,9 +4,12 @@ import Icon from "./packages/icon/index.vue";
 import Cell from "./packages/cell/index.vue";
 import Picker from "./packages/picker";
 import Loading from "./packages/loading/index.vue";
+import Scroll from "./packages/scroll/index.vue";
+
+console.log('Scroll', Scroll);
 
 function install() {
-  const packages = [Button, Icon, Cell, Picker, Loading];
+  const packages = [Button, Icon, Cell, Picker, Loading, Scroll];
   packages.forEach((item: any) => {
     if (item.install) {
       Vue.use(item);
