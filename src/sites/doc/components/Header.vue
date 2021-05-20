@@ -1,8 +1,14 @@
 <template>
-  <div class="doc-header" :class="themeName">
+  <div
+    class="doc-header"
+    :class="themeName"
+  >
     <div class="header-logo">
-      <a class="logo-link" href="#"></a>
-      <span class="logo-border"></span>
+      <a
+        class="logo-link"
+        href="#"
+      />
+      <span class="logo-border" />
     </div>
     <div class="header-nav">
       <Search />
@@ -13,41 +19,55 @@
               {{ header[0].cName }}
             </router-link>
           </li>
-          <li class="nav-item" :class="{ active: isActive(header[1].path) }">
+          <li
+            class="nav-item"
+            :class="{ active: isActive(header[1].path) }"
+          >
             <router-link :to="header[1].path">
               {{ header[1].cName }}
             </router-link>
           </li>
-          <li class="nav-item" :class="{ active: isActive(header[2].name) }">
+          <li
+            class="nav-item"
+            :class="{ active: isActive(header[2].name) }"
+          >
             <a href="demo.html#/">
               {{ header[2].cName }}
             </a>
           </li>
-          <li class="nav-item" :class="{ active: isActive(header[3].name) }">
+          <li
+            class="nav-item"
+            :class="{ active: isActive(header[3].name) }"
+          >
             <router-link :to="header[3].name">
               {{ header[3].cName }}
             </router-link>
           </li>
           <li class="nav-item">
             <div
-              @focus="handleFocus"
-              @focusout="handleFocusOut"
               tabindex="0"
               class="header-select-box"
-              @click.stop="isShowSelect = !isShowSelect"
               :class="[isShowSelect == true ? 'select-up' : 'select-down']"
+              @focus="handleFocus"
+              @focusout="handleFocusOut"
+              @click.stop="isShowSelect = !isShowSelect"
             >
-              <div class="header-select-hd"
-                >{{ verson }}<i class=""></i
-              ></div>
+              <div
+                class="header-select-hd"
+              >
+                {{ verson }}<i class="" />
+              </div>
               <transition name="fade">
-                <div class="header-select-bd" v-show="isShowSelect">
+                <div
+                  v-show="isShowSelect"
+                  class="header-select-bd"
+                >
                   <div
-                    class="header-select-item"
                     v-for="(item, index) in versonList"
                     :key="index"
-                    @click.stop="checkTheme(item.name, index)"
+                    class="header-select-item"
                     :class="{ active: activeIndex === index }"
+                    @click.stop="checkTheme(item.name, index)"
                   >
                     {{ item.name }}
                   </div>
@@ -60,7 +80,7 @@
               class="user-link"
               target="_blank"
               href="https://github.com/jdf2e/nutui"
-            ></a>
+            />
           </li>
         </ul>
       </div>
@@ -95,12 +115,12 @@ export default {
       activeIndex: 0,
       isShowSelect: false,
       themeName: 'doc-header-red'
-    }
+    };
   },
   computed: {
     isActive() {
       return (name) => this.$route.name === name.toLowerCase();
-    },
+    }
   },
 
   methods: {
@@ -125,7 +145,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

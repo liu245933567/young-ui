@@ -1,22 +1,23 @@
 <template>
   <div class="demo">
     <h2>基础用法</h2>
-    qwdqwd
-    <jt-icon></jt-icon>
-    <!-- <Icon/> -->
+    <!-- <jt-cell>
+      <div slot="left">标题</div>
+      <div slot="right">内容</div>
+    </jt-cell> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: "demo-icon",
+  name: 'demo-cell',
+  components: {},
   data() {
     return {};
   },
-  components: {},
   watch: {},
   mounted() {},
-  methods: {},
+  methods: {}
 };
 </script>
 

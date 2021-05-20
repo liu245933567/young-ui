@@ -1,26 +1,24 @@
 <template>
   <div class="demo">
     <h2>基础用法</h2>
-    <jt-cell>
-      <div slot="left">标题</div>
-      <div slot="right">内容</div>
-    </jt-cell>
+    <!-- <jt-loading></jt-loading>
+    <jt-loading :size="28"></jt-loading>
+    <jt-loading :size="40"></jt-loading> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: "demo-cell",
+  name: 'demo-loading',
+  components: {},
   data() {
     return {};
   },
-  components: {},
   watch: {},
   mounted() {},
-  methods: {},
+  methods: {}
 };
 </script>
 
 <style scoped lang="scss">
-@import './index.scss'
 </style>

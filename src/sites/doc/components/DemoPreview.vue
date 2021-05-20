@@ -1,6 +1,9 @@
 <template>
   <div class="doc-demo-preview">
-    <iframe :src="url" frameborder="0"></iframe>
+    <iframe
+      :src="url"
+      frameborder="0"
+    />
   </div>
 </template>
 

@@ -1,7 +1,13 @@
 <template>
   <div id="app">
-    <div v-if="title != '/'" id="nav">
-      <div class="back" @click="goBack">
+    <div
+      v-if="title != '/'"
+      id="nav"
+    >
+      <div
+        class="back"
+        @click="goBack"
+      >
         <!-- <nut-icon name="left"></nut-icon> -->
       </div>
       {{ title }}
@@ -10,19 +16,18 @@
   </div>
 </template>
 <script>
-import { isMobile } from "@/sites/assets/util";
+import { isMobile } from '@/sites/assets/util';
 
 export default {
-  name: "app",
+  name: 'app',
   data() {
     return {
-      title: "JETAIR-UI",
+      title: 'JETAIR-UI'
     };
   },
   watch: {
     $route: {
       handler(val) {
-        console.log('aaaaaaaa', val)
         const { hash } = window.top.location;
         if (!isMobile && val.hash != hash) {
           this.title = val.name;
@@ -31,12 +36,12 @@ export default {
         }
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     goBack(){
-      this.$router.go(-1)
+      this.$router.go(-1);
     }
   }
 };

@@ -12,7 +12,8 @@ export default defineConfig({
       { find: "@", replacement: resolve(__dirname, "./src") },
       { find: "@utils", replacement: resolve(__dirname, "./src/utils") },
       { find: "@packages", replacement: resolve(__dirname, "./src/packages") },
-      { find: "@mixins", replacement: resolve(__dirname, "./src/mixins") }
+      { find: "@mixins", replacement: resolve(__dirname, "./src/mixins") },
+      { find: "@examples", replacement: resolve(__dirname, "./src/examples") }
     ],
   },
   esbuild: {

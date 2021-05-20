@@ -1,24 +1,24 @@
 <template>
-  <section class="index">
-    图标
+  <section class="test">
+    按钮测试
   </section>
 </template>
 
 <script>
 export default {
- name: 'jt-icon',
+ name: 'test',
+  components: {},
   data() {
     return {
 
-    }
+    };
   },
-  components: {},
   watch: {},
   mounted() {},
   methods: {}
-}
+};
 </script>
 
-<style lang="scss">
-@import './index.scss';
+<style scoped lang="scss">
+
 </style>

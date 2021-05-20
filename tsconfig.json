@@ -26,7 +26,8 @@
       "@/*": ["src/*"],
       "@utils/*": ["src/utils/*"],
       "@packages/*": ["src/packages/*"],
-      "@mixins/*": ["src/mixins/*"]
+      "@mixins/*": ["src/mixins/*"],
+      "@examples/*": ["src/examples/*"]
     }
   },
   "include": [

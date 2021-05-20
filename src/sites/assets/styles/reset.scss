@@ -58,6 +58,26 @@ video {
     sans-serif;
   -webkit-overflow-scrolling: touch;
 }
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+}
+/*
+* 1a = 7.5px,
+* 1rem = 10a = 75px
+*/
+/*隐藏滚轮*/
+html {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+html::-webkit-scrollbar {
+  width: 0px;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 
 /* ios默认文本框阴影 */
 

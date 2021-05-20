@@ -10,7 +10,7 @@
       },
     ]"
   >
-    <label class="jt-button-text"><slot></slot></label>
+    <label class="jt-button-text"><slot /></label>
   </button>
 </template>
 
@@ -25,28 +25,28 @@
  */
 
 export default {
-  name: "jt-button",
+  name: 'jt-button',
   props: {
     nativeButtonType: {
       type: String,
-      default: "button",
+      default: 'button'
     },
     type: {
       type: String,
-      default: "primary",
+      default: 'primary',
       validator(value) {
-        return ["primary", "gray", "default", "dark"].indexOf(value) > -1;
-      },
+        return ['primary', 'gray', 'default', 'dark'].indexOf(value) > -1;
+      }
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     ghost: {
       type: Boolean,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 };
 </script>
 

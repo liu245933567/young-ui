@@ -1,24 +1,26 @@
 <template>
   <div class="index">
     <div class="index-header">
-      <img src="../../assets/images/logo-red.png" alt="" srcset="" />
       <div class="info">
-        <h1>NutUI</h1>
-        <p>京东风格的轻量级移动端 Vue 组件库</p>
+        <h1>Jetair-UI</h1>
+        <p>联航风格的移动端UI库</p>
       </div>
     </div>
     <div class="index-components">
-      <ol v-for="_nav in nav" :key="_nav">
+      <ol
+        v-for="_nav in nav"
+        :key="_nav"
+      >
         <li>{{ _nav.name }}</li>
         <ul>
           <template v-for="_package in _nav.packages">
-            <li :key="_package.name" v-if="_package.show">
-              <router-link :to="_package.name.toLowerCase()"
-                >{{ _package.name }}&nbsp;&nbsp;{{
-                  _package.cName
-                }}</router-link
-              >
-              <nut-icon size="14px" color="#979797" name="right"></nut-icon>
+            <li
+              v-if="_package.show"
+              :key="_package.name"
+            >
+              <router-link :to="_package.name.toLowerCase()">
+                {{ _package.name }}&nbsp;&nbsp;{{ _package.cName }}
+              </router-link>
             </li>
           </template>
         </ul>
@@ -28,15 +30,16 @@
 </template>
 
 <script>
-import { nav, versions } from "@/config.json";
+import { nav, versions } from '@/config.json';
+
 export default {
-  name: "doc",
+  name: 'doc',
   data() {
     return {
       nav,
-      versions,
+      versions
     };
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -48,43 +51,37 @@ export default {
   &-header {
     display: flex;
     align-items: center;
-    padding: 0 34px;
-    height: 117px;
-    > img {
-      width: 67px;
-      height: 67px;
-      margin-right: 18px;
-      flex-shrink: 0;
-    }
+    padding: 0 0.906667rem /* 68/75 */;
+    height: 3.12rem /* 234/75 */;
     .info {
       display: flex;
       flex-direction: column;
       h1 {
-        height: 48px;
-        line-height: 48px;
-        font-size: 34px;
+        height: 1.28rem /* 96/75 */;
+        line-height: 1.28rem;
+        font-size: 0.906667rem /* 68/75 */;
         color: rgba(51, 51, 51, 1);
       }
       p {
-        height: 18px;
-        line-height: 18px;
-        font-size: 12px;
+        height: 0.24rem;
+        line-height: 0.24rem /* 18/75 */;
+        font-size: 0.32rem /* 24/75 */;
         color: rgba(154, 155, 157, 1);
       }
     }
   }
   &-components {
     background: #f7f8fa;
-    border-radius: 30px 30px 0 0;
+    border-radius: 0.4rem /* 30/75 */ 0.4rem /* 30/75 */ 0 0;
     overflow: hidden;
-    padding: 30px 25px;
+    padding: 0.4rem /* 30/75 */ 0.333333rem /* 25/75 */;
     > ol {
-      margin-bottom: 17px;
+      margin-bottom: 0.453333rem /* 34/75 */;
       > li {
-        line-height: 20px;
-        font-size: 14px;
+        line-height: 0.533333rem /* 40/75 */;
+        font-size: 0.373333rem /* 28/75 */;
         color: rgba(144, 156, 164, 1);
-        margin-bottom: 10px;
+        margin-bottom: 0.133333rem /* 10/75 */;
       }
       > ul {
         li {
