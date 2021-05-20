@@ -1,23 +1,31 @@
 <template>
   <div class="jt-loading">
-    <span class="jt-loading-spinners" :style="style">
-      <i class="jt-loading-spinners-item" v-for="item in balde" :key="item"></i>
+    <span
+      class="jt-loading-spinners"
+      :style="style"
+    >
+      <i
+        v-for="item in balde"
+        :key="item"
+        class="jt-loading-spinners-item"
+      />
     </span>
   </div>
 </template>
 
 <script>
 export default {
-  name: "jt-loading",
-  data() {
-    return {
-      balde: 12,
-    };
-  },
+  name: 'jt-loading',
   props: {
     size: {
       type: Number,
-    },
+      default: 12
+    }
+  },
+  data() {
+    return {
+      balde: 12
+    };
   },
   computed: {
     style() {
@@ -27,10 +35,10 @@ export default {
       const value = `${this.size}px`;
       return {
         width: value,
-        height: value,
+        height: value
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

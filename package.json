@@ -8,6 +8,7 @@
   "scripts": {
     "checked": "yarn generate:file",
     "dev": "vite --open --force",
+    "build:page": "vite build",
     "build": "vite build --config vite.config.build.ts",
     "create": "ts-node scripts/createComponentMode",
     "generate:file": "ts-node scripts/generate-nutui"
