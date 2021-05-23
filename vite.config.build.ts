@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
-import path from 'path';
-import config from './package.json';
+import path from "path";
+import config from "./package.json";
+// import postcss from "rollup-plugin-postcss";
 
 const resolve = path.resolve;
 
@@ -13,26 +14,30 @@ const banner = `/*!
 
 export default defineConfig({
   resolve: {
-    alias: [{ find: "@", replacement: resolve(__dirname, "./src") },
-    { find: "@utils", replacement: resolve(__dirname, "./src/utils") },
-    { find: "@packages", replacement: resolve(__dirname, "./src/packages") },
-    { find: "@mixins", replacement: resolve(__dirname, "./src/mixins") },
-    { find: "@examples", replacement: resolve(__dirname, "./src/examples") }]
+    alias: [
+      { find: "@", replacement: resolve(__dirname, "./src") },
+      { find: "@utils", replacement: resolve(__dirname, "./src/utils") },
+      { find: "@packages", replacement: resolve(__dirname, "./src/packages") },
+      { find: "@mixins", replacement: resolve(__dirname, "./src/mixins") },
+      { find: "@examples", replacement: resolve(__dirname, "./src/examples") },
+    ],
   },
   css: {
     preprocessorOptions: {
       scss: {
-        // example : additionalData: `@import "./src/design/styles/variables";`
-        // dont need include file extend .scss
-        additionalData: `@import "@/styles/variables.scss";@import "@/sites/assets/styles/variables.scss";`
-      }
-    }
+        additionalData: `@import "@/styles/variables.scss";@import "@/sites/assets/styles/variables.scss";`,
+      },
+    },
   },
-  plugins: [createVuePlugin()],
+  plugins: [
+    createVuePlugin(),
+    // postcss({ extract: "[name]/index.css" })
+  ],
   build: {
     rollupOptions: {
+      input: {button: 'src/packages/button/index.js', icon: 'src/packages/icon/index.js'},
       // 请确保外部化那些你的库中不需要的依赖
-      external: ['vue'],
+      external: ["vue"],
       output: {
         banner,
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
@@ -42,9 +47,9 @@ export default defineConfig({
       }
     },
     lib: {
-      entry: 'src/packages/index.ts',
-      name: 'nutui',
-      formats: ['es', 'umd']
-    }
-  }
+      entry: "src/packages/index.ts",
+      name: "young",
+      formats: ["es", "umd"],
+    },
+  },
 });

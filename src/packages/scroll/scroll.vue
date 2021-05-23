@@ -1,13 +1,19 @@
 <template>
-  <div ref="wrapper" class="jt-scroll-wrapper">
+  <div
+    ref="wrapper"
+    class="jt-scroll-wrapper"
+  >
     <div class="jt-scroll-content">
-      <div ref="listWrapper" class="jt-scroll-list-wrapper">
+      <div
+        ref="listWrapper"
+        class="jt-scroll-list-wrapper"
+      >
         <slot>
           <ul class="jt-scroll-list">
             <li
-              class="jt-scroll-item border-bottom-1px"
               v-for="(item, index) in data"
               :key="index"
+              class="jt-scroll-item border-bottom-1px"
               @click="clickItem(item)"
             >
               {{ item }}
@@ -15,18 +21,35 @@
           </ul>
         </slot>
       </div>
-      <slot name="pullup" :pullUpLoad="pullUpLoad" :isPullUpLoad="isPullUpLoad">
-        <div class="jt-pullup-wrapper" v-if="pullUpLoad">
-          <div class="before-trigger" v-if="!isPullUpLoad">
+      <slot
+        name="pullup"
+        :pullUpLoad="pullUpLoad"
+        :isPullUpLoad="isPullUpLoad"
+      >
+        <div
+          v-if="pullUpLoad"
+          class="jt-pullup-wrapper"
+        >
+          <div
+            v-if="!isPullUpLoad"
+            class="before-trigger"
+          >
             <span>{{ pullUpTxt }}</span>
           </div>
-          <div class="after-trigger" v-else>
-            <loading></loading>
+          <div
+            v-else
+            class="after-trigger"
+          >
+            <loading />
           </div>
         </div>
       </slot>
     </div>
-    <div v-if="pullDownRefresh" class="jt-pulldown" ref="pulldown">
+    <div
+      v-if="pullDownRefresh"
+      ref="pulldown"
+      class="jt-pulldown"
+    >
       <slot
         name="pulldown"
         :pullDownRefresh="pullDownRefresh"
@@ -35,15 +58,33 @@
         :isPullingDown="isPullingDown"
         :bubbleY="bubbleY"
       >
-        <div class="jt-pulldown-wrapper" :style="pullDownStyle">
-          <div class="before-trigger" v-show="beforePullDown">
-            <bubble :y="bubbleY" class="bubble"></bubble>
+        <div
+          class="jt-pulldown-wrapper"
+          :style="pullDownStyle"
+        >
+          <div
+            v-show="beforePullDown"
+            class="before-trigger"
+          >
+            <bubble
+              :y="bubbleY"
+              class="bubble"
+            />
           </div>
-          <div class="after-trigger" v-show="!beforePullDown">
-            <div v-show="isPullingDown" class="loading">
-              <loading></loading>
+          <div
+            v-show="!beforePullDown"
+            class="after-trigger"
+          >
+            <div
+              v-show="isPullingDown"
+              class="loading"
+            >
+              <loading />
             </div>
-            <div v-show="!isPullingDown" class="jt-pulldown-loaded">
+            <div
+              v-show="!isPullingDown"
+              class="jt-pulldown-loaded"
+            >
               <span>{{ refreshTxt }}</span>
             </div>
           </div>
@@ -54,36 +95,36 @@
 </template>
 
 <script>
-import BScroll from "better-scroll";
-import Loading from "@packages/loading/index.vue";
-import Bubble from "./bubble.vue";
-import scrollMixin from "@mixins/scroll";
-import deprecatedMixin from "@mixins/deprecated";
-import { getRect } from "@utils/helpers/dom";
-import { camelize } from "@utils/lang/string";
-import { USE_TRANSITION } from "@utils/bscroll/constants";
+import BScroll from 'better-scroll';
+import Loading from '@packages/loading';
+import Bubble from './bubble.vue';
+import scrollMixin from '@mixins/scroll';
+import deprecatedMixin from '@mixins/deprecated';
+import { getRect } from '@utils/helpers/dom';
+import { camelize } from '@utils/lang/string';
+import { USE_TRANSITION } from '@utils/bscroll/constants';
 
-const COMPONENT_NAME = "jt-scroll";
-const DIRECTION_H = "horizontal";
-const DIRECTION_V = "vertical";
-const DEFAULT_REFRESH_TXT = "Refresh success";
+const COMPONENT_NAME = 'jt-scroll';
+const DIRECTION_H = 'horizontal';
+const DIRECTION_V = 'vertical';
+const DEFAULT_REFRESH_TXT = 'Refresh success';
 const DEFAULT_STOP_TIME = 600;
 
-const EVENT_CLICK = "click";
-const EVENT_PULLING_DOWN = "pulling-down";
-const EVENT_PULLING_UP = "pulling-up";
+const EVENT_CLICK = 'click';
+const EVENT_PULLING_DOWN = 'pulling-down';
+const EVENT_PULLING_UP = 'pulling-up';
 
-const EVENT_SCROLL = "scroll";
-const EVENT_BEFORE_SCROLL_START = "before-scroll-start";
-const EVENT_SCROLL_END = "scroll-end";
+const EVENT_SCROLL = 'scroll';
+const EVENT_BEFORE_SCROLL_START = 'before-scroll-start';
+const EVENT_SCROLL_END = 'scroll-end';
 
-const NEST_MODE_NONE = "none";
-const NEST_MODE_NATIVE = "native";
+const NEST_MODE_NONE = 'none';
+const NEST_MODE_NATIVE = 'native';
 
 const SCROLL_EVENTS = [
   EVENT_SCROLL,
   EVENT_BEFORE_SCROLL_START,
-  EVENT_SCROLL_END,
+  EVENT_SCROLL_END
 ];
 
 const DEFAULT_OPTIONS = {
@@ -92,28 +133,32 @@ const DEFAULT_OPTIONS = {
   probeType: 1,
   scrollbar: false,
   pullDownRefresh: false,
-  pullUpLoad: false,
+  pullUpLoad: false
 };
 
 export default {
   name: COMPONENT_NAME,
+  components: {
+    Loading,
+    Bubble
+  },
   mixins: [scrollMixin, deprecatedMixin],
   provide() {
     return {
-      parentScroll: this,
+      parentScroll: this
     };
   },
   inject: {
     parentScroll: {
-      default: null,
-    },
+      default: null
+    }
   },
   props: {
     data: {
       type: Array,
       default() {
         return [];
-      },
+      }
     },
     scrollEvents: {
       type: Array,
@@ -124,34 +169,34 @@ export default {
         return arr.every((item) => {
           return SCROLL_EVENTS.indexOf(item) !== -1;
         });
-      },
+      }
     },
     listenScroll: {
       type: Boolean,
       default: undefined,
       deprecated: {
-        replacedBy: "scroll-events",
-      },
+        replacedBy: 'scroll-events'
+      }
     },
     listenBeforeScroll: {
       type: Boolean,
       default: undefined,
       deprecated: {
-        replacedBy: "scroll-events",
-      },
+        replacedBy: 'scroll-events'
+      }
     },
     direction: {
       type: String,
-      default: DIRECTION_V,
+      default: DIRECTION_V
     },
     refreshDelay: {
       type: Number,
-      default: 20,
+      default: 20
     },
     nestMode: {
       type: String,
-      default: NEST_MODE_NONE,
-    },
+      default: NEST_MODE_NONE
+    }
   },
   data() {
     return {
@@ -160,10 +205,10 @@ export default {
       isPullUpLoad: false,
       pullUpNoMore: false,
       bubbleY: 0,
-      pullDownStyle: "",
+      pullDownStyle: '',
       pullDownStop: 40,
       pullDownHeight: 60,
-      pullUpHeight: 0,
+      pullUpHeight: 0
     };
   },
   computed: {
@@ -183,8 +228,8 @@ export default {
     pullUpTxt() {
       const pullUpLoad = this.pullUpLoad;
       const txt = pullUpLoad && pullUpLoad.txt;
-      const moreTxt = (txt && txt.more) || "";
-      const noMoreTxt = (txt && txt.noMore) || "";
+      const moreTxt = (txt && txt.more) || '';
+      const noMoreTxt = (txt && txt.noMore) || '';
 
       return this.pullUpNoMore ? noMoreTxt : moreTxt;
     },
@@ -206,7 +251,7 @@ export default {
       return (
         this.finalScrollEvents.indexOf(EVENT_SCROLL) !== -1 || this.parentScroll
       );
-    },
+    }
   },
   watch: {
     data() {
@@ -230,7 +275,7 @@ export default {
           this._pullDownRefreshChangeHandler();
         }
       },
-      deep: true,
+      deep: true
     },
     pullUpLoad: {
       handler(newVal, oldVal) {
@@ -248,8 +293,8 @@ export default {
           this._pullUpLoadChangeHandler();
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   activated() {
     /* istanbul ignore next */
@@ -277,7 +322,7 @@ export default {
         scrollY: this.direction === DIRECTION_V,
         scrollX: this.direction === DIRECTION_H,
         probeType: this.needListenScroll ? 3 : 1,
-        useTransition: USE_TRANSITION,
+        useTransition: USE_TRANSITION
       };
       let options = Object.assign(
         {},
@@ -364,7 +409,7 @@ export default {
         const scrolls = [innerScroll, outerScroll];
         scrolls.forEach((scroll, index, arr) => {
           // scroll ended always enable them
-          scroll.on("touchEnd", () => {
+          scroll.on('touchEnd', () => {
             outerScroll.enable();
             innerScroll.enable();
             // when inner scroll reaching boundary, we will disable inner scroll, so when 'touchend' event fire,
@@ -374,7 +419,7 @@ export default {
             innerScroll.initiated = false;
           });
 
-          scroll.on("beforeScrollStart", () => {
+          scroll.on('beforeScrollStart', () => {
             this.touchStartMoment = true;
             const anotherScroll = arr[(index + 1) % 2];
             anotherScroll.stop();
@@ -382,7 +427,7 @@ export default {
           });
         });
 
-        innerScroll.on("scroll", (pos) => {
+        innerScroll.on('scroll', (pos) => {
           // if scroll event triggered not by touch event, such as by 'scrollTo' method
           if (!innerScroll.initiated || innerScroll.isInTransition) {
             return;
@@ -461,12 +506,12 @@ export default {
       listWrapper.style.minHeight = `${minHeight}px`;
     },
     _onPullDownRefresh() {
-      this.scroll.on("pullingDown", this._pullDownHandle);
-      this.scroll.on("scroll", this._pullDownScrollHandle);
+      this.scroll.on('pullingDown', this._pullDownHandle);
+      this.scroll.on('scroll', this._pullDownScrollHandle);
     },
     _offPullDownRefresh() {
-      this.scroll.off("pullingDown", this._pullDownHandle);
-      this.scroll.off("scroll", this._pullDownScrollHandle);
+      this.scroll.off('pullingDown', this._pullDownHandle);
+      this.scroll.off('scroll', this._pullDownScrollHandle);
     },
     _pullDownRefreshChangeHandler() {
       this.$nextTick(() => {
@@ -501,10 +546,10 @@ export default {
       });
     },
     _onPullUpLoad() {
-      this.scroll.on("pullingUp", this._pullUpHandle);
+      this.scroll.on('pullingUp', this._pullUpHandle);
     },
     _offPullUpLoad() {
-      this.scroll.off("pullingUp", this._pullUpHandle);
+      this.scroll.off('pullingUp', this._pullUpHandle);
     },
     _pullUpHandle() {
       this.isPullUpLoad = true;
@@ -553,12 +598,8 @@ export default {
         return;
       }
       this.pullUpHeight = getRect(pullup).height;
-    },
-  },
-  components: {
-    Loading,
-    Bubble,
-  },
+    }
+  }
 };
 </script>
 

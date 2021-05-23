@@ -6,10 +6,10 @@
     :class="{ 'jt-picker-slot-hidden': !ready }"
   >
     <p
-      class="jt-picker-slot-item"
-      :class="{ 'jt-picker-slot-item-selected': currentIndex === index }"
       v-for="(item, index) in values"
       :key="item"
+      class="jt-picker-slot-item"
+      :class="{ 'jt-picker-slot-item-selected': currentIndex === index }"
     >
       {{ item }}
     </p>
@@ -25,45 +25,45 @@
 </template>
 
 <script>
-import translateUtils from "../../../src/utils/translate.js";
-import draggable from "../../../src/utils/draggable.js";
+import translateUtils from '@utils/translate';
+import draggable from '@utils/draggable';
 
 export default {
-  name: "jt-picker-slot",
+  name: 'jt-picker-slot',
   props: {
     type: {
       type: String,
-      default: "data",
+      default: 'data'
     },
     values: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     content: {
       type: String,
-      default: "",
+      default: ''
     },
     flex: {
-      type: [Number, String],
+      type: [Number, String]
     },
     textAlign: {
       type: String,
-      default: "center",
+      default: 'center'
     },
     showItemCount: {
       type: Number,
       default: 5,
       validator(value) {
         return value > 0 && value % 2 === 1;
-      },
+      }
     },
     slotIndex: {
       type: Number,
-      default: 0,
+      default: 0
     },
     defaultValue: {
-      type: [Number, String],
-    },
+      type: [Number, String]
+    }
   },
   data() {
     return {
@@ -71,19 +71,43 @@ export default {
         startTop: 0,
         offsetTop: 0,
         initialTranslateY: 0,
-        endTop: 0,
+        endTop: 0
       },
       dragRange: {
         top: 0,
-        bottom: 0,
+        bottom: 0
       },
       itemHeight: 0,
       currentIndex: -1,
-      ready: false,
+      ready: false
     };
   },
+  watch: {
+    values(val) {
+      /**
+       * 如果 setSlotValues 时带有指定 index 值，尝试定位其
+       */
+
+      let relocateIndex = val.index || 0;
+      this.locateItem(relocateIndex);
+      this.$emit(
+        'change',
+        this.slotIndex,
+        this.values.length ? this.values[this.currentIndex] : ''
+      );
+    },
+    currentIndex(val, oldVal) {
+      if (oldVal !== -1) {
+        this.$emit(
+          'change',
+          this.slotIndex,
+          this.values.length ? this.values[val] : ''
+        );
+      }
+    }
+  },
   mounted() {
-    if (this.type === "data") {
+    if (this.type === 'data') {
       this.getSizes();
       this.bindEvents();
       if (this.defaultValue !== undefined) {
@@ -102,9 +126,9 @@ export default {
         this.locateItem(0);
       }
       this.$emit(
-        "change",
+        'change',
         this.slotIndex,
-        this.values.length ? this.values[this.currentIndex] : ""
+        this.values.length ? this.values[this.currentIndex] : ''
       );
     }
     /*
@@ -114,34 +138,10 @@ export default {
       this.ready = true;
     }, 300);
   },
-  watch: {
-    values(val) {
-      /**
-       * 如果 setSlotValues 时带有指定 index 值，尝试定位其
-       */
-
-      let relocateIndex = val.index || 0;
-      this.locateItem(relocateIndex);
-      this.$emit(
-        "change",
-        this.slotIndex,
-        this.values.length ? this.values[this.currentIndex] : ""
-      );
-    },
-    currentIndex(val, oldVal) {
-      if (oldVal !== -1) {
-        this.$emit(
-          "change",
-          this.slotIndex,
-          this.values.length ? this.values[val] : ""
-        );
-      }
-    },
-  },
   methods: {
     getSizes() {
       this.itemHeight = this.$el.children[0].offsetHeight;
-      this.$emit("getItemHeight", this.itemHeight);
+      this.$emit('getItemHeight', this.itemHeight);
       this.dragRange.top = this.itemHeight * ((this.showItemCount - 1) / 2);
       this.dragRange.bottom =
         this.dragRange.top - (this.values.length - 1) * this.itemHeight;
@@ -186,7 +186,7 @@ export default {
           );
           this.locateItem(Index);
           this.dragState = {};
-        },
+        }
       });
     },
     locateItem(Index) {
@@ -204,8 +204,8 @@ export default {
         return;
       }
       this.currentIndex = Index;
-    },
-  },
+    }
+  }
 };
 </script>
 

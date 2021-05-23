@@ -14,7 +14,7 @@ export default defineConfig({
       { find: "@packages", replacement: resolve(__dirname, "./src/packages") },
       { find: "@mixins", replacement: resolve(__dirname, "./src/mixins") },
       { find: "@examples", replacement: resolve(__dirname, "./src/examples") }
-    ],
+    ]
   },
   esbuild: {
     jsxFactory: "h",
