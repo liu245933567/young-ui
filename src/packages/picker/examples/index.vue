@@ -1,8 +1,6 @@
 <template>
   <div class="demo">
-    <h2>基础用法</h2>
     <router-view />
-    <!-- <jt-button @click.native="sigle">单行Picker</jt-button> -->
   </div>
 </template>
 

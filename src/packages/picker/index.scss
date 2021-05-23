@@ -51,6 +51,7 @@ $picker-item-color: #333;
   padding: 0 $picker-lr-padding;
   box-sizing: content-box;
   font-size: $fontsize-medium;
+  cursor: pointer;
 }
 
 .jt-picker-confirm {
@@ -92,6 +93,12 @@ $picker-item-color: #333;
   line-height: .426667rem /* 32/75 */;
   font-size: $fontsize-small;
   color: $picker-subtitle-color;
+}
+.border-bottom-1px{
+  @include self-border(bottom);
+}
+.border-top-1px{
+  @include self-border(top);
 }
 
 .jt-picker-content {
@@ -150,6 +157,7 @@ $picker-item-color: #333;
   overflow: hidden;
   white-space: nowrap;
   color: $picker-item-color;
+  cursor: pointer;
 }
 
 .jt-picker-footer {

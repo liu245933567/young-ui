@@ -18,3 +18,41 @@
   overflow: hidden;
   word-break: break-all;
 }
+
+@mixin self-border($dir: bottom, $size: 1px) {
+  position: relative;
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    transform-origin: 0 0;
+  }
+  &::after {
+    border-#{$dir}: $size solid $color-row-line;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    @if $dir == top {
+      left: 0;
+      top: 0;
+      width: 100%;
+      transform-origin: 0 top;
+    } @else if $dir == right {
+      top: 0;
+      right: 0;
+      height: 100%;
+      transform-origin: right 0;
+    } @else if $dir == bottom {
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      transform-origin: 0 bottom;
+    } @else {
+      top: 0;
+      left: 0;
+      height: 100%;
+      transform-origin: left 0;
+    }
+  }
+}

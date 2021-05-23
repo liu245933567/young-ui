@@ -4,7 +4,7 @@
     <jt-popup
       v-show="isVisible"
       type="picker"
-      :mask="true"
+      mask
       :center="false"
       :z-index="zIndex"
       @touchmove.prevent

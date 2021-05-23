@@ -8,15 +8,6 @@
 
 <script>
 export default {
-  name: 'demo1',
-  components: {},
-  data() {
-    return {};
-  },
-  watch: {},
-  mounted() {
-    console.log('=======', this.$picker);
-  },
   methods: {
     openSigle() {
       const column1 = [
@@ -26,7 +17,8 @@ export default {
       ];
       const picker = this.$picker({
         title: 'Picker',
-        data: [column1]
+        data: [column1],
+        maskClosable: true
       });
       picker.show();
     }

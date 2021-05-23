@@ -16,6 +16,10 @@ $disable-color: #cccccc !default;
 $white: #fff;
 $black: #000;
 
+$color-row-line: #ebebeb;
+
+$color-col-line: #f5f5f5;
+
 // padding
 $padding-xs: 12px;
 
@@ -74,7 +78,5 @@ $cell-left-color: #222;
 $cell-right-font-size: .373333rem /* 28/75 */;
 $cell-right-color: #9a9a9a;
 
-view-block {
-  display: block;
-}
+@import './mixins/index';
 
