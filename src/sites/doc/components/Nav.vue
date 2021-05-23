@@ -7,30 +7,41 @@
       <ul>
         <li
           v-for="(_package, index) in docs.packages"
-          :class="{ active: isActive(_package.name) }"
-          :key="`${_package.name}-${index}`"
           v-show="_package.show"
+          :key="`${_package.name}-${index}`"
+          :class="{ active: isActive(_package.name) }"
         >
           <router-link
             v-if="!_package.isLink"
             :to="_package.name.toLowerCase()"
-            >{{ _package.cName }}</router-link
           >
-          <a v-else :href="_package.name" target="_blank">{{
+            {{ _package.cName }}
+          </router-link>
+          <a
+            v-else
+            :href="_package.name"
+            target="_blank"
+          >{{
             _package.cName
           }}</a>
         </li>
       </ul>
     </ol>
-    <ol v-for="_nav in nav" :key="_nav.name">
+    <ol
+      v-for="_nav in nav"
+      :key="_nav.name"
+    >
       <li>{{ _nav.name }}</li>
       <ul>
         <template
-          :class="{ active: isActive(_package.name) }"
           v-for="_package in _nav.packages"
+          :class="{ active: isActive(_package.name) }"
         >
-          <li v-if="_package.show" :key="_package.name">
-            <router-link :to="_package.name.toLowerCase()">
+          <li
+            v-if="_package.show"
+            :key="_package.name"
+          >
+            <router-link :to="_package.name | kebab">
               {{ _package.name }}&nbsp;&nbsp;<b>{{ _package.cName }}</b>
             </router-link>
           </li>
@@ -40,21 +51,24 @@
   </div>
 </template>
 <script>
-import { nav, docs } from "@/config.json";
-
+import { nav, docs } from '@/config.json';
+import { kebab } from '@utils/lang/string';
 export default {
-  name: "doc-nav",
+  name: 'doc-nav',
+  filters: {
+    kebab
+  },
   data() {
     return {
       nav,
-      docs,
+      docs
     };
   },
   computed: {
     isActive() {
       return (name) => this.$route.name === name.toLowerCase();
-    },
-  },
+    }
+  }
 };
 </script>
 

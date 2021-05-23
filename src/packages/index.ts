@@ -1,8 +1,9 @@
 import Scroll from "./scroll";
 import Picker from "./picker";
 import Button from "./button";
+import DatePicker from "./date-picker";
 
-const components = [Scroll, Picker, Button];
+const components = [Scroll, Picker, Button, DatePicker];
 
 function install(Vue) {
   //@ts-ignore
@@ -16,4 +17,4 @@ function install(Vue) {
   });
 }
 
-export { install, Scroll, Picker, Button };
+export { install, Scroll, Picker, DatePicker, Button };
