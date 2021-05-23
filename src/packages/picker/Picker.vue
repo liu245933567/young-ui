@@ -1,271 +1,342 @@
 <template>
-  <transition
-    :name="pickerTransition"
-    @after-enter="onShow()"
-    @after-leave="onHide()"
-  >
-    <div
-      class="jt-picker"
-      ref="popup"
-      v-if="visible"
-      :style="{ 'z-index': zIndex }"
+  <transition name="jt-picker-fade">
+    <!-- Transition animation need use with v-show in the same template. -->
+    <jt-popup
+      v-show="isVisible"
+      type="picker"
+      :mask="true"
+      :center="false"
+      :z-index="zIndex"
+      @touchmove.prevent
+      @mask-click="maskClick"
     >
-      <header class="jt-picker-header">
-        <p
-          class="jt-picker-header-cancel"
-          v-if="isShowCancelButton"
-          @click="onCancel"
+      <transition name="jt-picker-move">
+        <div
+          v-show="isVisible"
+          class="jt-picker-panel jt-safe-area-pb"
+          @click.stop
         >
-          {{ cancelText }}
-        </p>
-        <p class="jt-picker-header-confirm" @click="onConfirm">
-          {{ confirmText }}
-        </p>
-        <p class="jt-picker-header-title" v-if="title">{{ title }}</p>
-      </header>
-      <div
-        class="jt-picker-slots-container"
-        :style="`height: ${containerHeight}px;`"
-      >
-        <jt-picker-slot
-          v-for="(slot, index) in slots"
-          @getItemHeight="setItemHeight"
-          @change="slotChangeHandler"
-          :slotIndex="index"
-          :showItemCount="showItemCount"
-          :content="slot.content"
-          :type="slot.type"
-          :values="slot.values"
-          :flex="slot.flex"
-          :textAlign="slot.textAlign"
-          :key="'slot' + index"
-          :defaultValue="slot.defaultValue"
-          :ref="'slot' + index"
-        ></jt-picker-slot>
-        <div class="jt-picker-slots-fence-upline"></div>
-        <div class="jt-picker-slots-fence-downline"></div>
-      </div>
-    </div>
+          <div class="jt-picker-choose border-bottom-1px">
+            <span
+              class="jt-picker-cancel"
+              @click="cancel"
+            >{{
+              _cancelTxt
+            }}</span>
+            <span
+              class="jt-picker-confirm"
+              @click="confirm"
+            >{{
+              _confirmTxt
+            }}</span>
+            <div class="jt-picker-title-group">
+              <h1
+                class="jt-picker-title"
+                v-html="title"
+              />
+              <h2
+                v-if="subtitle"
+                class="jt-picker-subtitle"
+                v-html="subtitle"
+              />
+            </div>
+          </div>
+
+          <div class="jt-picker-content">
+            <i class="border-bottom-1px" />
+            <i class="border-top-1px" />
+            <div
+              ref="wheelWrapper"
+              class="jt-picker-wheel-wrapper"
+            >
+              <div
+                v-for="(data, index) in finalData"
+                :key="index"
+                :style="{ order: _getFlexOrder(data) }"
+              >
+                <!-- The class name of the ul and li need be configured to BetterScroll. -->
+                <ul class="jt-picker-wheel-scroll">
+                  <li
+                    v-for="(item, index) in data"
+                    :key="index"
+                    class="jt-picker-wheel-item"
+                    v-html="item[textKey]"
+                  />
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="jt-picker-footer" />
+        </div>
+      </transition>
+    </jt-popup>
   </transition>
 </template>
 
 <script>
-import PickerSlot from "./PickerSlot.vue";
-import Popup from "../../mixins/popup";
+import BScroll from 'better-scroll';
+import JtPopup from '@packages/popup';
+import visibilityMixin from '@mixins/visibility';
+import popupMixin from '@mixins/popup';
+import basicPickerMixin from '@mixins/basic-picker';
+import pickerMixin from '@mixins/picker';
+import { USE_TRANSITION } from '@utils/bscroll/constants';
+const COMPONENT_NAME = 'jt-picker';
+
+const EVENT_SELECT = 'select';
+const EVENT_VALUE_CHANGE = 'value-change';
+const EVENT_CANCEL = 'cancel';
+const EVENT_CHANGE = 'change';
 
 export default {
-  name: "jt-picker",
-  mixins: [Popup],
+  name: COMPONENT_NAME,
   components: {
-    [PickerSlot.name]: PickerSlot,
+    JtPopup
   },
+  mixins: [visibilityMixin, popupMixin, basicPickerMixin, pickerMixin],
   props: {
-    title: {
-      type: [String, Number],
-      default: "",
-    },
-    value: {
+    pending: {
       type: Boolean,
-      default: false,
-    },
-    transition: {
-      type: String,
-      default: "slide-bottom",
-    },
-    showItemCount: {
-      type: Number,
-      default: 5,
-      validator(value) {
-        return value > 0 && value % 2 === 1;
-      },
-    },
-    slots: {
-      type: Array,
-    },
-    confirmText: {
-      type: [String, Number],
-      default: "确定",
-    },
-    cancelText: {
-      type: [String, Number],
-      default: "取消",
-    },
-    isShowCancelButton: {
-      type: Boolean,
-      default: true,
-    },
-    onShow: {
-      type: Function,
-      default: () => {},
-    },
-    onHide: {
-      type: Function,
-      default: () => {},
-    },
-    onConfirm: {
-      type: Function,
-      default: () => {},
-    },
-    onCancel: {
-      type: Function,
-      default: () => {},
-    },
-    onMaskClick: {
-      type: Function,
-      default: () => {},
-    },
-    onChange: {
-      type: Function,
-      default: () => {},
-    },
+      default: false
+    }
   },
   data() {
     return {
-      visible: false,
-      lineHeight: 0,
-      datas: {},
+      finalData: this.data.slice()
     };
   },
-  computed: {
-    pickerTransition() {
-      if (this.transition) {
-        return `picker-${this.transition}`;
-      } else {
-        return "";
+  created() {
+    this._values = [];
+    this._indexes = this.selectedIndex;
+  },
+  beforeDestroy() {
+    this.wheels &&
+      this.wheels.forEach((wheel) => {
+        wheel.destroy();
+      });
+    this.wheels = null;
+  },
+  methods: {
+    confirm() {
+      if (!this._canConfirm()) {
+        return;
+      }
+      this.hide();
+
+      let changed = false;
+      let pickerSelectedText = [];
+
+      const length = this.finalData.length;
+      const oldLength = this._values.length;
+
+      // when column count has changed.
+      if (oldLength !== length) {
+        changed = true;
+        oldLength > length &&
+          (this._values.length = this._indexes.length = length);
+      }
+
+      for (let i = 0; i < length; i++) {
+        let index = this._getSelectIndex(this.wheels[i]);
+        this._indexes[i] = index;
+
+        let value = null;
+        let text = '';
+        if (this.finalData[i].length) {
+          value = this.finalData[i][index][this.valueKey];
+          text = this.finalData[i][index][this.textKey];
+        }
+        if (this._values[i] !== value) {
+          changed = true;
+        }
+        this._values[i] = value;
+        pickerSelectedText[i] = text;
+      }
+
+      this.$emit(EVENT_SELECT, this._values, this._indexes, pickerSelectedText);
+
+      if (changed) {
+        this.$emit(
+          EVENT_VALUE_CHANGE,
+          this._values,
+          this._indexes,
+          pickerSelectedText
+        );
       }
     },
-    containerHeight() {
-      return this.lineHeight * this.showItemCount;
-    },
-  },
-  created() {},
-  watch: {
-    value(val) {
-      this.visible = val;
-    },
-    visible(val) {
-      this.$emit("input", val);
-    },
-  },
-  mounted() {},
-  methods: {
     maskClick() {
-      this.onMaskClick();
+      this.maskClosable && this.cancel();
     },
-    slotChangeHandler(index, val) {
-      if (`slot${index}` in this.datas) {
-        let oldSlotValue = this.datas[`slot${index}`];
-        this.$set(this.datas, `slot${index}`, val);
-        this.$emit("change", this.datas);
-        this.onChange({
-          changedSlotIndex: index,
-          oldSlotValue: oldSlotValue,
-          newSlotValue: val,
-          val: this.datas,
+    cancel() {
+      this.hide();
+      this.$emit(EVENT_CANCEL);
+    },
+    show() {
+      if (this.isVisible) {
+        return;
+      }
+
+      this.isVisible = true;
+      if (!this.wheels || this.dirty) {
+        this.$nextTick(() => {
+          this.wheels = this.wheels || [];
+          let wheelWrapper = this.$refs.wheelWrapper;
+          for (let i = 0; i < this.finalData.length; i++) {
+            this._createWheel(wheelWrapper, i).enable();
+            this.wheels[i].wheelTo(this._indexes[i]);
+          }
+          this.dirty && this._destroyExtraWheels();
+          this.dirty = false;
         });
       } else {
-        this.$set(this.datas, `slot${index}`, val);
+        for (let i = 0; i < this.finalData.length; i++) {
+          this.wheels[i].enable();
+          this.wheels[i].wheelTo(this._indexes[i]);
+        }
       }
     },
-    setSlotValues(index, values, valueIndex) {
-      values.index = valueIndex;
-      this.slots[index].values = values;
+    hide() {
+      if (!this.isVisible) {
+        return;
+      }
+      this.isVisible = false;
+
+      for (let i = 0; i < this.finalData.length; i++) {
+        this.wheels[i].disable();
+      }
     },
-    setItemHeight(height) {
-      this.lineHeight = height;
+    setData(data, selectedIndex) {
+      this._indexes = selectedIndex ? [...selectedIndex] : [];
+      this.finalData = data.slice();
+      if (this.isVisible) {
+        this.$nextTick(() => {
+          const wheelWrapper = this.$refs.wheelWrapper;
+          this.finalData.forEach((item, i) => {
+            this._createWheel(wheelWrapper, i);
+            this.wheels[i].wheelTo(this._indexes[i]);
+          });
+          this._destroyExtraWheels();
+        });
+      } else {
+        this.dirty = true;
+      }
     },
-  },
+    refill(datas) {
+      let ret = [];
+      if (!datas.length) {
+        return ret;
+      }
+      datas.forEach((data, index) => {
+        ret[index] = this.refillColumn(index, data);
+      });
+      return ret;
+    },
+    refillColumn(index, data) {
+      const wheelWrapper = this.$refs.wheelWrapper;
+      let scroll = wheelWrapper.children[index].querySelector(
+        '.jt-picker-wheel-scroll'
+      );
+      let wheel = this.wheels ? this.wheels[index] : false;
+      let dist = 0;
+      if (scroll && wheel) {
+        let oldData = this.finalData[index];
+        this.$set(this.finalData, index, data);
+        let selectedIndex = wheel.getSelectedIndex();
+        if (oldData.length) {
+          let oldValue = oldData[selectedIndex][this.valueKey];
+          for (let i = 0; i < data.length; i++) {
+            if (data[i][this.valueKey] === oldValue) {
+              dist = i;
+              break;
+            }
+          }
+        }
+        this._indexes[index] = dist;
+        this.$nextTick(() => {
+          // recreate wheel so that the wrapperHeight will be correct.
+          wheel = this._createWheel(wheelWrapper, index);
+          wheel.wheelTo(dist);
+        });
+      }
+      return dist;
+    },
+    scrollTo(index, dist) {
+      const wheel = this.wheels[index];
+      this._indexes[index] = dist;
+      wheel.wheelTo(dist);
+    },
+    refresh() {
+      this.$nextTick(() => {
+        this.wheels.forEach((wheel) => {
+          wheel.refresh();
+        });
+      });
+    },
+    _createWheel(wheelWrapper, i) {
+      if (!this.wheels[i]) {
+        const wheel = (this.wheels[i] = new BScroll(wheelWrapper.children[i], {
+          wheel: {
+            selectedIndex: this._indexes[i] || 0,
+            wheelWrapperClass: 'jt-picker-wheel-scroll',
+            wheelItemClass: 'jt-picker-wheel-item'
+          },
+          swipeTime: this.swipeTime,
+          observeDOM: false,
+          useTransition: USE_TRANSITION
+        }));
+        wheel.on('scrollEnd', () => {
+          this.$emit(EVENT_CHANGE, i, this._getSelectIndex(wheel));
+        });
+      } else {
+        this.wheels[i].refresh();
+      }
+      return this.wheels[i];
+    },
+    _destroyExtraWheels() {
+      const dataLength = this.finalData.length;
+      if (this.wheels.length > dataLength) {
+        const extraWheels = this.wheels.splice(dataLength);
+        extraWheels.forEach((wheel) => {
+          wheel.destroy();
+        });
+      }
+    },
+    _canConfirm() {
+      return (
+        !this.pending &&
+        this.wheels.every((wheel) => {
+          return !wheel.isInTransition;
+        })
+      );
+    },
+    _getFlexOrder(data) {
+      if (data[0]) {
+        return data[0][this.orderKey];
+      }
+      return 0;
+    },
+    // fixed BScroll not calculating selectedIndex when setting useTransition to false
+    _getSelectIndex(wheel) {
+      const y = wheel.y;
+      let selectedIndex;
+      if (USE_TRANSITION) {
+        selectedIndex = wheel.getSelectedIndex();
+      } else {
+        if (y > wheel.minScrollY) {
+          selectedIndex = 0;
+        } else if (y < wheel.maxScrollY) {
+          selectedIndex = wheel.items.length - 1;
+        } else {
+          selectedIndex = Math.round(Math.abs(y / wheel.itemHeight));
+        }
+      }
+      return selectedIndex;
+    }
+  }
 };
 </script>
 
 <style lang="scss">
-$button-color: #4990e2;
-$button-text-size: 32px;
-$fence-color: #cdcdcd;
-$picker-header-line-height: 1.173333rem /* 88/75 */;
-$picker-padding: .533333rem /* 40/75 */;
-$picker-slot-line-height: .96rem /* 72/75 */;
-
-.jt-picker {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #fff;
-
-  &-header {
-    overflow: hidden;
-    line-height: $picker-header-line-height;
-    align-items: center;
-
-    &-cancel {
-      float: left;
-    }
-
-    &-confirm {
-      float: right;
-    }
-
-    &-title {
-      color: #404040;
-      text-align: center;
-    }
-  }
-
-  & > p {
-    padding: 0 $picker-padding;
-    color: $button-color;
-    font-size: $button-text-size; /* px */
-  }
-
-  &-slots-container {
-    display: flex;
-    position: relative;
-    line-height: $picker-slot-line-height;
-    -webkit-mask-box-image: linear-gradient(
-      0deg,
-      transparent,
-      transparent 5%,
-      #fff 20%,
-      #fff 80%,
-      transparent 95%,
-      transparent
-    );
-    overflow: hidden;
-
-    &-slots-fence-upline {
-      position: absolute;
-      height: 0;
-      width: 100%;
-      top: 50%;
-      left: 0;
-      border-top: 1px solid $fence-color; /* no */
-      transform: translate3d(0, -36px, 0);
-    }
-
-    &-slots-fence-downline {
-      position: absolute;
-      height: 0;
-      width: 100%;
-      top: 50%;
-      left: 0;
-      border-top: 1px solid $fence-color; /* no */
-      transform: translate3d(0, 36px, 0);
-    }
-  }
-
-  .picker-slide-bottom-enter-active,
-  .picker-slide-bottom-leave-active {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-    transition: all 0.3s;
-  }
-
-  .picker-slide-bottom-enter,
-  .picker-slide-bottom-leave-active {
-    transform: translate3d(0, 100%, 0);
-    opacity: 0;
-  }
-}
+@import './index.scss';
 </style>

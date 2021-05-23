@@ -2,7 +2,7 @@ import button from './button/route';
 import cell from './cell/route';
 import icon from './icon/route';
 import loading from './loading/route';
-import picker from './picker/route';
+import picker from '@packages/picker/examples/route';
 import scroll from './scroll/route';
 
 export default [

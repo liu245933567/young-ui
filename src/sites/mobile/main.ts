@@ -3,9 +3,9 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import '@/sites/assets/styles/reset.scss';
-// import Jetair from '@packages/index';
+import {install} from '@packages/index';
 
-// Jetair.install()
+install(Vue)
 
 
 new Vue({

@@ -9,6 +9,7 @@
         'jt-button-ghost': ghost,
       },
     ]"
+    @click="handleClick"
   >
     <label class="jt-button-text"><slot /></label>
   </button>
@@ -45,6 +46,16 @@ export default {
     ghost: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    handleClick(event) {
+      if (this.disabled) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      this.$emit('click', event);
     }
   }
 };

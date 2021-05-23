@@ -1,6 +1,19 @@
-export { default as Button } from "./button";
-export { default as Cell } from "./cell";
-export { default as Icon } from "./icon";
-export { default as Loading } from "./loading";
-export { default as Picker } from "./picker";
-export { default as Scroll } from "./scroll";
+import Scroll from "./scroll";
+import Picker from "./picker";
+import Button from "./button";
+
+const components = [Scroll, Picker, Button];
+
+function install(Vue) {
+  //@ts-ignore
+  if (install.installed) {
+    return;
+  }
+  //@ts-ignore
+  install.installed = true;
+  components.forEach((Component) => {
+    Component.install(Vue);
+  });
+}
+
+export { install, Scroll, Picker, Button };

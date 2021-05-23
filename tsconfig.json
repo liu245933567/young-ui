@@ -33,6 +33,7 @@
   "include": [
     "node_modules/vue-tsx-support/enable-check.d.ts",
     "src/**/*.ts",
+    "src/**/*.js",
     "src/**/*.tsx",
     "src/**/*.vue"
   ]

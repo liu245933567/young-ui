@@ -1,7 +1,7 @@
 <template>
   <div class="demo">
     <h2>基础用法</h2>
-    <!-- <jt-scroll
+    <jt-scroll
       class="scroll-wrapper-1"
       :options="{ pullDownRefresh: true }"
     >
@@ -13,14 +13,17 @@
           {{ item }}
         </li>
       </ul>
-    </jt-scroll> -->
+    </jt-scroll>
   </div>
 </template>
 
 <script>
+import {Scroll} from '@packages/index';
 export default {
   name: 'demo-icon',
-  components: {},
+  components: {
+    [Scroll.name]: Scroll
+  },
   data() {
     return {
       mockdata1: [...new Array(100).keys()].map((i) => `假数据 ---- ${i}`)

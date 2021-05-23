@@ -5002,6 +5002,11 @@ vue-class-component@^7.2.6:
   resolved "https://registry.nlark.com/vue-class-component/download/vue-class-component-7.2.6.tgz#8471e037b8e4762f5a464686e19e5afc708502e4"
   integrity sha1-hHHgN7jkdi9aRkaG4Z5a/HCFAuQ=
 
+vue-create-api@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.npm.taobao.org/vue-create-api/download/vue-create-api-0.2.3.tgz#920b4e76349cf6aef692a6f743b96dc09eade5cd"
+  integrity sha1-kgtOdjSc9q72kqb3Q7ltwJ6t5c0=
+
 vue-eslint-parser@^7.0.0:
   version "7.6.0"
   resolved "http://172.16.0.230:8081/repository/npm-public/vue-eslint-parser/-/vue-eslint-parser-7.6.0.tgz#01ea1a2932f581ff244336565d712801f8f72561"
