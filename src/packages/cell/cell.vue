@@ -1,5 +1,8 @@
 <template>
-  <div class="jt-cell" @click="cellClickHandler">
+  <div
+    class="jt-cell"
+    @click="cellClickHandler"
+  >
     <div class="jt-cell-inner-wrapper">
       <div class="jt-cell-left-wrapper">
         <slot name="left">
@@ -21,25 +24,28 @@ export default {
   name: 'jt-cell',
   props: {
     title: {
-      type: String
+      type: String,
+      default: ''
     },
     value: {
-      type: String
+      type: String,
+      default: ''
     },
     to: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   methods: {
     cellClickHandler() {
-      if(this.to) {
-        location.href = this.to
+      if (this.to) {
+        location.href = this.to;
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import './index.scss';
+@import "./index.scss";
 </style>
