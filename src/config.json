@@ -113,6 +113,21 @@
       ]
     },
     {
+      "name": "弹出组件",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Overlay",
+          "type": "component",
+          "cName": "遮罩层",
+          "desc": "遮罩层组件",
+          "sort": 1,
+          "show": true,
+          "author": ""
+        }
+      ]
+    },
+    {
       "name": "导航组件",
       "packages": [
         {
